@@ -166,15 +166,10 @@ export const inputValidation = (options = {}) => {
           return obj;
         };
 
-        req.body = sanitizeObj(req.body);
-        // Don't reassign req.query and req.params as they are read-only
-        // Instead, sanitize their properties individually
-        Object.keys(req.query).forEach(key => {
-          req.query[key] = sanitizeObj(req.query[key]);
-        });
-        Object.keys(req.params).forEach(key => {
-          req.params[key] = sanitizeObj(req.params[key]);
-        });
+        // Only sanitize body - req.query and req.params are read-only in Express 5
+        if (req.body && typeof req.body === 'object') {
+          req.body = sanitizeObj(req.body);
+        }
       }
 
       // Add processing time header

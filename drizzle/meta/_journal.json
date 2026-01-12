@@ -8,6 +8,13 @@
       "when": 1767882492676,
       "tag": "0000_legal_daimon_hellstrom",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1768248783244,
+      "tag": "0001_short_gladiator",
+      "breakpoints": true
     }
   ]
 }

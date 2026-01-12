@@ -29,7 +29,6 @@ app.use(
 
 // Apply security middleware
 app.use(securityMiddleware);
-// app.use(apiRateLimiter); // Temporarily disabled for testing
 app.use(apiValidation);
 
 app.get('/', (req, res) => {
@@ -53,10 +52,26 @@ app.get('/api', (req, res) => {
 });
 
 app.use('/api/auth', authRateLimiter, authValidation, authRoutes);
-app.use('/api/users', usersRoutes);
+app.use('/api/users', apiRateLimiter, usersRoutes);
 
+// 404 handler
 app.use((req, res) => {
     res.status(404).json({ error: 'Route not found' });
+});
+
+// Global error handler middleware (must be last)
+app.use((err, req, res, next) => {
+    logger.error('Unhandled error', err);
+    const statusCode = err.statusCode || 500;
+    const message = process.env.NODE_ENV === 'production' 
+        ? 'Internal server error' 
+        : err.message;
+    
+    res.status(statusCode).json({
+        error: 'Internal server error',
+        message: message,
+        ...(process.env.NODE_ENV !== 'production' && { stack: err.stack }),
+    });
 });
 
 export default app;

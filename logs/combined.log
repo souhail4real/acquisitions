@@ -49,3 +49,81 @@
 {"level":"info","message":"::1 - - [12/Jan/2026:19:53:38 +0000] \"POST /api/auth/sign-up HTTP/1.1\" 429 77 \"-\" \"HTTPie\"","service":"acquisitions-api"}
 {"level":"warn","message":"Blocked request from ::1 - still in cooldown period","service":"acquisitions-api"}
 {"level":"info","message":"::1 - - [12/Jan/2026:19:53:43 +0000] \"POST /api/auth/sign-up HTTP/1.1\" 429 77 \"-\" \"HTTPie\"","service":"acquisitions-api"}
+{"level":"info","message":"Environment variables validated successfully","service":"acquisitions-api"}
+{"level":"info","message":"Environment variables validated successfully","service":"acquisitions-api"}
+{"level":"info","message":"Environment variables validated successfully","service":"acquisitions-api"}
+{"level":"info","message":"Environment variables validated successfully","service":"acquisitions-api"}
+{"level":"info","message":"Environment variables validated successfully","service":"acquisitions-api"}
+{"level":"info","message":"Environment variables validated successfully","service":"acquisitions-api"}
+{"level":"info","message":"Environment variables validated successfully","service":"acquisitions-api"}
+{"level":"info","message":"Hello from Acquisitions!","service":"acquisitions-api"}
+{"level":"info","message":"::1 - - [12/Jan/2026:20:22:06 +0000] \"GET / HTTP/1.1\" 200 24 \"-\" \"HTTPie\"","service":"acquisitions-api"}
+{"level":"info","message":"::1 - - [12/Jan/2026:20:22:20 +0000] \"GET /api/auth/sign-up HTTP/1.1\" 404 27 \"-\" \"HTTPie\"","service":"acquisitions-api"}
+{"level":"info","message":"::1 - - [12/Jan/2026:20:22:22 +0000] \"GET /api/auth/sign-up HTTP/1.1\" 404 27 \"-\" \"HTTPie\"","service":"acquisitions-api"}
+{"level":"info","message":"::1 - - [12/Jan/2026:20:22:22 +0000] \"GET /api/auth/sign-up HTTP/1.1\" 404 27 \"-\" \"HTTPie\"","service":"acquisitions-api"}
+{"level":"info","message":"::1 - - [12/Jan/2026:20:22:22 +0000] \"GET /api/auth/sign-up HTTP/1.1\" 404 27 \"-\" \"HTTPie\"","service":"acquisitions-api"}
+{"level":"info","message":"::1 - - [12/Jan/2026:20:22:22 +0000] \"GET /api/auth/sign-up HTTP/1.1\" 404 27 \"-\" \"HTTPie\"","service":"acquisitions-api"}
+{"level":"info","message":"Environment variables validated successfully","service":"acquisitions-api"}
+{"level":"info","message":"Environment variables validated successfully","service":"acquisitions-api"}
+{"level":"info","message":"Environment variables validated successfully","service":"acquisitions-api"}
+{"level":"info","message":"Environment variables validated successfully","service":"acquisitions-api"}
+{"level":"info","message":"Environment variables validated successfully","service":"acquisitions-api"}
+{"level":"info","message":"Environment variables validated successfully","service":"acquisitions-api"}
+{"level":"info","message":"Environment variables validated successfully","service":"acquisitions-api","timestamp":"2026-01-12T20:34:36.256Z"}
+{"level":"info","message":"Environment variables validated successfully","service":"acquisitions-api","timestamp":"2026-01-12T20:36:01.450Z"}
+{"level":"info","message":"Environment variables validated successfully","service":"acquisitions-api","timestamp":"2026-01-12T20:36:40.844Z"}
+{"level":"info","message":"Environment variables validated successfully","service":"acquisitions-api","timestamp":"2026-01-12T20:37:25.487Z"}
+{"level":"info","message":"Environment variables validated successfully","service":"acquisitions-api","timestamp":"2026-01-12T20:39:47.347Z"}
+{"level":"info","message":"Checking if user exists: souhail@gmail.com","service":"acquisitions-api","timestamp":"2026-01-12T20:39:58.774Z"}
+{"level":"info","message":"Creating user: souhail@gmail.com","service":"acquisitions-api","timestamp":"2026-01-12T20:39:59.764Z"}
+{"level":"info","message":"User souhail@gmail.com created successfully","service":"acquisitions-api","timestamp":"2026-01-12T20:39:59.838Z"}
+{"level":"info","message":"User registered successfully: souhail@gmail.com","service":"acquisitions-api","timestamp":"2026-01-12T20:39:59.848Z"}
+{"level":"info","message":"::1 - - [12/Jan/2026:20:39:59 +0000] \"POST /api/auth/sign-up HTTP/1.1\" 201 104 \"-\" \"HTTPie\"","service":"acquisitions-api","timestamp":"2026-01-12T20:39:59.860Z"}
+{"level":"info","message":"Checking if user exists: souhail@gmail.com","service":"acquisitions-api","timestamp":"2026-01-12T20:40:07.401Z"}
+{"level":"error","message":"Error creating the user: Error: User with this email already exists","service":"acquisitions-api","timestamp":"2026-01-12T20:40:07.564Z"}
+{"level":"error","message":"Signup error User with this email already exists","service":"acquisitions-api","stack":"Error: User with this email already exists\n    at createUser (file:///C:/Users/SOUHAIL/WebstormProjects/acquisitions/acquisitions-1/src/services/auth.service.js:30:19)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async signup (file:///C:/Users/SOUHAIL/WebstormProjects/acquisitions/acquisitions-1/src/controllers/auth.controller.js:21:22)","timestamp":"2026-01-12T20:40:07.566Z"}
+{"level":"info","message":"::1 - - [12/Jan/2026:20:40:07 +0000] \"POST /api/auth/sign-up HTTP/1.1\" 409 31 \"-\" \"HTTPie\"","service":"acquisitions-api","timestamp":"2026-01-12T20:40:07.568Z"}
+{"level":"info","message":"Checking if user exists: souhail@gmail.com","service":"acquisitions-api","timestamp":"2026-01-12T20:40:10.312Z"}
+{"level":"error","message":"Error creating the user: Error: User with this email already exists","service":"acquisitions-api","timestamp":"2026-01-12T20:40:10.361Z"}
+{"level":"error","message":"Signup error User with this email already exists","service":"acquisitions-api","stack":"Error: User with this email already exists\n    at createUser (file:///C:/Users/SOUHAIL/WebstormProjects/acquisitions/acquisitions-1/src/services/auth.service.js:30:19)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async signup (file:///C:/Users/SOUHAIL/WebstormProjects/acquisitions/acquisitions-1/src/controllers/auth.controller.js:21:22)","timestamp":"2026-01-12T20:40:10.362Z"}
+{"level":"info","message":"::1 - - [12/Jan/2026:20:40:10 +0000] \"POST /api/auth/sign-up HTTP/1.1\" 409 31 \"-\" \"HTTPie\"","service":"acquisitions-api","timestamp":"2026-01-12T20:40:10.363Z"}
+{"level":"info","message":"Checking if user exists: souhail@gmail.com","service":"acquisitions-api","timestamp":"2026-01-12T20:40:16.209Z"}
+{"level":"error","message":"Error creating the user: Error: User with this email already exists","service":"acquisitions-api","timestamp":"2026-01-12T20:40:16.357Z"}
+{"level":"error","message":"Signup error User with this email already exists","service":"acquisitions-api","stack":"Error: User with this email already exists\n    at createUser (file:///C:/Users/SOUHAIL/WebstormProjects/acquisitions/acquisitions-1/src/services/auth.service.js:30:19)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async signup (file:///C:/Users/SOUHAIL/WebstormProjects/acquisitions/acquisitions-1/src/controllers/auth.controller.js:21:22)","timestamp":"2026-01-12T20:40:16.358Z"}
+{"level":"info","message":"::1 - - [12/Jan/2026:20:40:16 +0000] \"POST /api/auth/sign-up HTTP/1.1\" 409 31 \"-\" \"HTTPie\"","service":"acquisitions-api","timestamp":"2026-01-12T20:40:16.359Z"}
+{"level":"info","message":"Checking if user exists: souhail@gmail.com","service":"acquisitions-api","timestamp":"2026-01-12T20:40:17.587Z"}
+{"level":"error","message":"Error creating the user: Error: User with this email already exists","service":"acquisitions-api","timestamp":"2026-01-12T20:40:17.638Z"}
+{"level":"error","message":"Signup error User with this email already exists","service":"acquisitions-api","stack":"Error: User with this email already exists\n    at createUser (file:///C:/Users/SOUHAIL/WebstormProjects/acquisitions/acquisitions-1/src/services/auth.service.js:30:19)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async signup (file:///C:/Users/SOUHAIL/WebstormProjects/acquisitions/acquisitions-1/src/controllers/auth.controller.js:21:22)","timestamp":"2026-01-12T20:40:17.639Z"}
+{"level":"info","message":"::1 - - [12/Jan/2026:20:40:17 +0000] \"POST /api/auth/sign-up HTTP/1.1\" 409 31 \"-\" \"HTTPie\"","service":"acquisitions-api","timestamp":"2026-01-12T20:40:17.640Z"}
+{"level":"warn","message":"Rate limit exceeded for ::1. Blocking for 1800000ms","service":"acquisitions-api","timestamp":"2026-01-12T20:40:17.758Z"}
+{"level":"info","message":"::1 - - [12/Jan/2026:20:40:17 +0000] \"POST /api/auth/sign-up HTTP/1.1\" 429 87 \"-\" \"HTTPie\"","service":"acquisitions-api","timestamp":"2026-01-12T20:40:17.760Z"}
+{"level":"warn","message":"Blocked request from ::1 - still in cooldown period","service":"acquisitions-api","timestamp":"2026-01-12T20:40:18.376Z"}
+{"level":"info","message":"::1 - - [12/Jan/2026:20:40:18 +0000] \"POST /api/auth/sign-up HTTP/1.1\" 429 77 \"-\" \"HTTPie\"","service":"acquisitions-api","timestamp":"2026-01-12T20:40:18.377Z"}
+{"level":"warn","message":"Blocked request from ::1 - still in cooldown period","service":"acquisitions-api","timestamp":"2026-01-12T20:40:33.012Z"}
+{"level":"info","message":"::1 - - [12/Jan/2026:20:40:33 +0000] \"POST /api/auth/sign-in HTTP/1.1\" 429 77 \"-\" \"HTTPie\"","service":"acquisitions-api","timestamp":"2026-01-12T20:40:33.023Z"}
+{"level":"warn","message":"Blocked request from ::1 - still in cooldown period","service":"acquisitions-api","timestamp":"2026-01-12T20:40:34.223Z"}
+{"level":"info","message":"::1 - - [12/Jan/2026:20:40:34 +0000] \"POST /api/auth/sign-in HTTP/1.1\" 429 77 \"-\" \"HTTPie\"","service":"acquisitions-api","timestamp":"2026-01-12T20:40:34.227Z"}
+{"level":"info","message":"Environment variables validated successfully","service":"acquisitions-api","timestamp":"2026-01-12T20:41:14.859Z"}
+{"level":"info","message":"Environment variables validated successfully","service":"acquisitions-api","timestamp":"2026-01-12T20:42:17.369Z"}
+{"level":"info","message":"User souhail@gmail.com authenticated successfully","service":"acquisitions-api","timestamp":"2026-01-12T20:43:14.024Z"}
+{"level":"info","message":"User signed in successfully: souhail@gmail.com","service":"acquisitions-api","timestamp":"2026-01-12T20:43:14.033Z"}
+{"level":"info","message":"::1 - - [12/Jan/2026:20:43:14 +0000] \"POST /api/auth/sign-in HTTP/1.1\" 200 116 \"-\" \"HTTPie\"","service":"acquisitions-api","timestamp":"2026-01-12T20:43:14.042Z"}
+{"level":"info","message":"Environment variables validated successfully","service":"acquisitions-api","timestamp":"2026-01-12T23:26:15.953Z"}
+{"level":"info","message":"Environment variables validated successfully","service":"acquisitions-api","timestamp":"2026-01-12T23:26:16.860Z"}
+{"level":"info","message":"Environment variables validated successfully","service":"acquisitions-api","timestamp":"2026-01-12T23:26:18.231Z"}
+{"level":"info","message":"Environment variables validated successfully","service":"acquisitions-api","timestamp":"2026-01-12T23:26:20.465Z"}
+{"level":"info","message":"Checking if user exists: souhail@gmail.com","service":"acquisitions-api","timestamp":"2026-01-12T23:26:31.815Z"}
+{"level":"info","message":"Environment variables validated successfully","service":"acquisitions-api","timestamp":"2026-01-12T23:26:32.346Z"}
+{"level":"info","message":"User souhail@gmail.com authenticated successfully","service":"acquisitions-api","timestamp":"2026-01-12T23:26:39.290Z"}
+{"level":"info","message":"User signed in successfully: souhail@gmail.com","service":"acquisitions-api","timestamp":"2026-01-12T23:26:39.301Z"}
+{"level":"info","message":"::1 - - [12/Jan/2026:23:26:39 +0000] \"POST /api/auth/sign-in HTTP/1.1\" 200 116 \"-\" \"HTTPie\"","service":"acquisitions-api","timestamp":"2026-01-12T23:26:39.309Z"}
+{"level":"info","message":"Checking if user exists: hatim@gmail.com","service":"acquisitions-api","timestamp":"2026-01-12T23:26:57.591Z"}
+{"level":"info","message":"Creating user: hatim@gmail.com","service":"acquisitions-api","timestamp":"2026-01-12T23:26:57.921Z"}
+{"level":"info","message":"User hatim@gmail.com created successfully","service":"acquisitions-api","timestamp":"2026-01-12T23:26:58.014Z"}
+{"level":"info","message":"User registered successfully: hatim@gmail.com","service":"acquisitions-api","timestamp":"2026-01-12T23:26:58.016Z"}
+{"level":"info","message":"::1 - - [12/Jan/2026:23:26:58 +0000] \"POST /api/auth/sign-up HTTP/1.1\" 201 100 \"-\" \"HTTPie\"","service":"acquisitions-api","timestamp":"2026-01-12T23:26:58.019Z"}
+{"level":"info","message":"User hatim@gmail.com authenticated successfully","service":"acquisitions-api","timestamp":"2026-01-12T23:27:01.368Z"}
+{"level":"info","message":"User signed in successfully: hatim@gmail.com","service":"acquisitions-api","timestamp":"2026-01-12T23:27:01.370Z"}
+{"level":"info","message":"::1 - - [12/Jan/2026:23:27:01 +0000] \"POST /api/auth/sign-in HTTP/1.1\" 200 112 \"-\" \"HTTPie\"","service":"acquisitions-api","timestamp":"2026-01-12T23:27:01.372Z"}
+{"level":"info","message":"User signed out successfully","service":"acquisitions-api","timestamp":"2026-01-12T23:27:05.735Z"}
+{"level":"info","message":"::1 - - [12/Jan/2026:23:27:05 +0000] \"POST /api/auth/sign-out HTTP/1.1\" 200 42 \"-\" \"HTTPie\"","service":"acquisitions-api","timestamp":"2026-01-12T23:27:05.737Z"}

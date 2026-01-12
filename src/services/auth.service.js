@@ -1,8 +1,6 @@
 import logger from '#config/logger.js';
 import bcrypt from 'bcrypt';
-import { eq } from 'drizzle-orm';
-import { db } from '#config/database.js';
-import { users } from '#models/user.model.js';
+import { sql } from '#config/database.js';
 
 export const hashPassword = async password => {
     try {
@@ -24,27 +22,26 @@ export const comparePassword = async (password, hashedPassword) => {
 
 export const createUser = async ({ name, email, password, role = 'user' }) => {
     try {
-        const existingUser = await db
-            .select()
-            .from(users)
-            .where(eq(users.email, email))
-            .limit(1);
+        logger.info(`Checking if user exists: ${email}`);
+        
+        const existingUsers = await sql`SELECT id FROM users WHERE email = ${email} LIMIT 1`;
 
-        if (existingUser.length > 0)
+        if (existingUsers && existingUsers.length > 0)
             throw new Error('User with this email already exists');
 
         const password_hash = await hashPassword(password);
 
-        const [newUser] = await db
-            .insert(users)
-            .values({ name, email, password: password_hash, role })
-            .returning({
-                id: users.id,
-                name: users.name,
-                email: users.email,
-                role: users.role,
-                created_at: users.created_at,
-            });
+        logger.info(`Creating user: ${email}`);
+        const result = await sql`
+            INSERT INTO users (name, email, password, role, created_at, updated_at)
+            VALUES (${name}, ${email}, ${password_hash}, ${role}, NOW(), NOW())
+            RETURNING id, name, email, role, created_at
+        `;
+        
+        const newUser = result[0];
+        if (!newUser) {
+            throw new Error('Failed to create user');
+        }
 
         logger.info(`User ${newUser.email} created successfully`);
         return newUser;
@@ -56,11 +53,12 @@ export const createUser = async ({ name, email, password, role = 'user' }) => {
 
 export const authenticateUser = async ({ email, password }) => {
     try {
-        const [existingUser] = await db
-            .select()
-            .from(users)
-            .where(eq(users.email, email))
-            .limit(1);
+        const result = await sql`
+            SELECT id, name, email, password, role, created_at
+            FROM users WHERE email = ${email} LIMIT 1
+        `;
+        
+        const existingUser = result && result[0];
 
         if (!existingUser) {
             throw new Error('User not found');

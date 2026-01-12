@@ -3,7 +3,8 @@ export const cookies = {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
         sameSite: 'strict',
-        maxAge: 15 * 60 * 1000,
+        path: '/',
+        maxAge: 24 * 60 * 60 * 1000, // 24 hours, matches JWT_EXPIRES_IN
     }),
 
     set: (res, name, value, options = {}) => {
@@ -11,7 +12,7 @@ export const cookies = {
     },
 
     clear: (res, name, options = {}) => {
-        res.clearCookie(name, { ...cookies.getOptions(), ...options });
+        res.clearCookie(name, { path: '/', ...options });
     },
 
     get: (req, name) => {
