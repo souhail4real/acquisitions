@@ -1,10 +1,12 @@
 import 'dotenv/config';
+import { neon } from '@neondatabase/serverless';
+import { drizzle } from 'drizzle-orm/neon-serverless';
 
-import {neon, neonConfig} from "@neondatabase/serverless";
-import {drizzle} from "drizzle-orm//neon-http";
+// Crée le client Neon avec la DATABASE_URL
+const client = neon(process.env.DATABASE_URL);
 
-const sql = process.env.DATABASE_URL;
+// Crée l'instance Drizzle
+export const db = drizzle(client);
 
-const db = drizzle(sql);
-
-export {db, sql};
+// Si tu veux l'URL pour d'autres usages
+export const sql = process.env.DATABASE_URL;
