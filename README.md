@@ -184,6 +184,8 @@ JWT_SECRET=<generate-with-openssl-rand-base64-64>
 
 ## API Endpoints
 
+**Base URL:** `http://localhost:3000`
+
 ### Health Check
 
 | Method | Endpoint | Description |
@@ -192,6 +194,8 @@ JWT_SECRET=<generate-with-openssl-rand-base64-64>
 | `GET` | `/health` | Health check with uptime |
 | `GET` | `/api` | API status |
 
+---
+
 ### Authentication (`/api/auth`)
 
 | Method | Endpoint | Description | Auth Required |
@@ -199,6 +203,78 @@ JWT_SECRET=<generate-with-openssl-rand-base64-64>
 | `POST` | `/api/auth/sign-up` | Register new user | No |
 | `POST` | `/api/auth/sign-in` | Login and get JWT | No |
 | `POST` | `/api/auth/sign-out` | Logout (clear cookie) | No |
+
+#### Sign Up
+```bash
+curl -X POST http://localhost:3000/api/auth/sign-up \
+  -H "Content-Type: application/json" \
+  -d '{"name": "John Doe", "email": "john@example.com", "password": "password123"}'
+```
+
+**Request Body:**
+```json
+{
+  "name": "John Doe",
+  "email": "john@example.com",
+  "password": "password123"
+}
+```
+
+**Response (201):**
+```json
+{
+  "message": "User created successfully",
+  "user": {
+    "id": 1,
+    "name": "John Doe",
+    "email": "john@example.com",
+    "role": "user"
+  }
+}
+```
+
+#### Sign In
+```bash
+curl -X POST http://localhost:3000/api/auth/sign-in \
+  -H "Content-Type: application/json" \
+  -d '{"email": "john@example.com", "password": "password123"}' \
+  -c cookies.txt
+```
+
+**Request Body:**
+```json
+{
+  "email": "john@example.com",
+  "password": "password123"
+}
+```
+
+**Response (200):** Sets HTTP-only cookie with JWT token
+```json
+{
+  "message": "User signed in successfully",
+  "user": {
+    "id": 1,
+    "name": "John Doe",
+    "email": "john@example.com",
+    "role": "user"
+  }
+}
+```
+
+#### Sign Out
+```bash
+curl -X POST http://localhost:3000/api/auth/sign-out -b cookies.txt
+```
+
+**Response (200):**
+```json
+{
+  "message": "User signed out successfully"
+}
+```
+
+---
 
 ### Users (`/api/users`)
 
@@ -209,6 +285,145 @@ JWT_SECRET=<generate-with-openssl-rand-base64-64>
 | `GET` | `/api/users/:id` | Get user by ID | Yes | Admin |
 | `PUT` | `/api/users/:id` | Update user | Yes | Owner/Admin |
 | `DELETE` | `/api/users/:id` | Delete user | Yes | Admin |
+
+#### Get Profile (Any authenticated user)
+```bash
+curl http://localhost:3000/api/users/profile -b cookies.txt
+```
+
+**Response (200):**
+```json
+{
+  "message": "User profile",
+  "user": {
+    "id": 1,
+    "name": "John Doe",
+    "email": "john@example.com",
+    "role": "user"
+  }
+}
+```
+
+#### Get All Users (Admin only)
+```bash
+curl http://localhost:3000/api/users -b cookies.txt
+```
+
+**Response (200):**
+```json
+{
+  "message": "Users retrieved successfully",
+  "users": [
+    {
+      "id": 1,
+      "email": "john@example.com",
+      "name": "John Doe",
+      "role": "user",
+      "created_at": "2026-01-13T00:00:00.000Z",
+      "updated_at": "2026-01-13T00:00:00.000Z"
+    }
+  ],
+  "count": 1
+}
+```
+
+#### Get User by ID (Admin only)
+```bash
+curl http://localhost:3000/api/users/1 -b cookies.txt
+```
+
+**Response (200):**
+```json
+{
+  "message": "User retrieved successfully",
+  "user": {
+    "id": 1,
+    "email": "john@example.com",
+    "name": "John Doe",
+    "role": "user",
+    "created_at": "2026-01-13T00:00:00.000Z",
+    "updated_at": "2026-01-13T00:00:00.000Z"
+  }
+}
+```
+
+#### Update User (Owner or Admin)
+```bash
+curl -X PUT http://localhost:3000/api/users/1 \
+  -H "Content-Type: application/json" \
+  -d '{"name": "John Updated"}' \
+  -b cookies.txt
+```
+
+**Request Body (all fields optional):**
+```json
+{
+  "name": "John Updated",
+  "email": "newemail@example.com",
+  "password": "newpassword123",
+  "role": "admin"
+}
+```
+> Note: Only admins can change the `role` field.
+
+**Response (200):**
+```json
+{
+  "message": "User updated successfully",
+  "user": {
+    "id": 1,
+    "email": "john@example.com",
+    "name": "John Updated",
+    "role": "user",
+    "created_at": "2026-01-13T00:00:00.000Z",
+    "updated_at": "2026-01-13T01:00:00.000Z"
+  }
+}
+```
+
+#### Delete User (Admin only)
+```bash
+curl -X DELETE http://localhost:3000/api/users/1 -b cookies.txt
+```
+
+**Response (200):**
+```json
+{
+  "message": "User deleted successfully",
+  "user": {
+    "id": 1,
+    "email": "john@example.com",
+    "name": "John Doe",
+    "role": "user"
+  }
+}
+```
+
+---
+
+### Error Responses
+
+| Status | Description |
+|--------|-------------|
+| `400` | Validation error - Invalid request body |
+| `401` | Unauthorized - No token or invalid token |
+| `403` | Forbidden - Insufficient permissions |
+| `404` | Not found - Resource doesn't exist |
+| `429` | Too many requests - Rate limited |
+| `500` | Internal server error |
+
+**Example Error Response:**
+```json
+{
+  "error": "Validation failed",
+  "details": [
+    {
+      "field": "email",
+      "message": "Invalid email format"
+    }
+  ]
+}
+```
 
 ---
 
