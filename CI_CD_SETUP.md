@@ -1,6 +1,7 @@
 # 🚀 CI/CD Setup Guide
 
 ## Current Status
+
 - ✅ **Lint & Format** - Working
 - ⚠️ **Tests** - May need attention (check below)
 - ⚠️ **Docker Build** - Needs Docker Hub secrets (optional)
@@ -8,13 +9,17 @@
 ## 📍 Where to Find CI/CD Information
 
 ### 1. **GitHub Actions Dashboard**
+
 View all workflow runs and errors:
+
 ```
 https://github.com/souhail4real/acquisitions/actions
 ```
 
 ### 2. **Workflow Files Location**
+
 All CI/CD configurations are in:
+
 ```
 .github/workflows/
 ├── lint-and-format.yml    ✅ Working
@@ -27,12 +32,14 @@ All CI/CD configurations are in:
 ### Docker Hub Secrets (Optional - for Docker workflow)
 
 **Where to add:**
+
 ```
 https://github.com/souhail4real/acquisitions/settings/secrets/actions
 ```
 
 **Required secrets:**
-1. **`DOCKER_USERNAME`** 
+
+1. **`DOCKER_USERNAME`**
    - Your Docker Hub username
    - Example: `souhail4real`
 
@@ -41,6 +48,7 @@ https://github.com/souhail4real/acquisitions/settings/secrets/actions
    - Get access token: https://hub.docker.com/settings/security
 
 **Steps to add secrets:**
+
 1. Go to repository settings
 2. Click "Secrets and variables" → "Actions"
 3. Click "New repository secret"
@@ -52,16 +60,19 @@ https://github.com/souhail4real/acquisitions/settings/secrets/actions
 If tests are failing, check:
 
 **Common issues:**
+
 - Database connection errors (PostgreSQL service)
 - Missing environment variables
 - Import errors in test files
 
 **View detailed logs:**
+
 ```
 https://github.com/souhail4real/acquisitions/actions/workflows/tests.yml
 ```
 
 **Fix locally first:**
+
 ```bash
 npm test
 ```
@@ -69,21 +80,25 @@ npm test
 ## 📊 How to Check CI/CD Status
 
 ### Method 1: GitHub Actions Tab
+
 1. Go to your repository
 2. Click "Actions" tab
 3. See all workflow runs with ✅ or ❌ status
 
 ### Method 2: Commit Status
+
 - Green checkmark ✅ = All checks passed
 - Red X ❌ = Some checks failed
 - Yellow dot 🟡 = Checks running
 
 ### Method 3: Email Notifications
+
 GitHub sends emails when workflows fail (check your GitHub email)
 
 ## 🐛 Debugging Failed Workflows
 
 ### For Tests Workflow:
+
 ```bash
 # Run locally to see exact error
 npm test
@@ -96,6 +111,7 @@ node test-db.js
 ```
 
 ### For Docker Workflow:
+
 ```bash
 # Test Docker build locally
 docker build -t test-acquisitions .
@@ -105,6 +121,7 @@ docker build -t test-acquisitions . --progress=plain
 ```
 
 ### For Lint/Format:
+
 ```bash
 # Check linting
 npm run lint
@@ -118,11 +135,11 @@ npm run lint:fix
 
 ## 📝 Quick Reference
 
-| Workflow | Status | Action Needed |
-|----------|--------|---------------|
-| Lint & Format | ✅ Working | None |
-| Tests | ⚠️ Check logs | View error at actions page |
-| Docker Build | ⚠️ Optional | Add Docker Hub secrets if you want to push images |
+| Workflow      | Status        | Action Needed                                     |
+| ------------- | ------------- | ------------------------------------------------- |
+| Lint & Format | ✅ Working    | None                                              |
+| Tests         | ⚠️ Check logs | View error at actions page                        |
+| Docker Build  | ⚠️ Optional   | Add Docker Hub secrets if you want to push images |
 
 ## 🔗 Important Links
 

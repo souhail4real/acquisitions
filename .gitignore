@@ -23,7 +23,6 @@ Thumbs.db
 # Neon Local metadata
 .neon_local/
 
-# Test files
-coverage
-*.test.js
-*.spec.js
+# Test coverage (not test files themselves)
+coverage/
+.nyc_output/

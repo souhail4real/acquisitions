@@ -31,7 +31,7 @@ async function runTests() {
       await access('src/server.js');
       await access('src/index.js');
       assert(true, 'All required project files exist');
-    } catch (error) {
+    } catch {
       assert(false, 'Required project files are missing');
     }
 
@@ -41,9 +41,12 @@ async function runTests() {
 
     // Test 4: Dependencies check
     assert(packageJson.dependencies['express'], 'Express dependency exists');
-    assert(packageJson.dependencies['drizzle-orm'], 'Drizzle ORM dependency exists');
+    assert(
+      packageJson.dependencies['drizzle-orm'],
+      'Drizzle ORM dependency exists'
+    );
 
-    console.log(`\n📊 Test Results:`);
+    console.log('\n📊 Test Results:');
     console.log(`✅ Passed: ${passed}`);
     console.log(`❌ Failed: ${failed}`);
 
@@ -54,7 +57,6 @@ async function runTests() {
       console.log('💥 Some tests failed!');
       process.exit(1);
     }
-
   } catch (error) {
     console.error('❌ Test execution failed:', error.message);
     process.exit(1);
