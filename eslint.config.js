@@ -22,7 +22,7 @@ export default [
     rules: {
       indent: ['error', 2, { SwitchCase: 1 }],
       'linebreak-style': 'off', // Allow both CRLF and LF for cross-platform compatibility
-      quotes: ['error', 'single'],
+      quotes: ['error', 'single', { avoidEscape: true }], // Allow double quotes to avoid escaping
       semi: ['error', 'always'],
       'no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
       'no-console': 'off',

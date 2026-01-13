@@ -51,7 +51,7 @@ const sanitizeValue = value => {
           '>': '&gt;',
           '&': '&amp;',
           '"': '&quot;',
-          '\'': '&#x27;',
+          "'": '&#x27;',
         };
         return entities[char];
       })
