@@ -130,3 +130,66 @@
 {"level":"info","message":"Environment variables validated successfully","service":"acquisitions-api","timestamp":"2026-01-13T00:46:59.469Z"}
 {"level":"info","message":"Environment variables validated successfully","service":"acquisitions-api","timestamp":"2026-01-13T00:47:00.199Z"}
 {"level":"info","message":"Environment variables validated successfully","service":"acquisitions-api","timestamp":"2026-01-13T00:47:02.312Z"}
+{"level":"info","message":"Environment variables validated successfully","service":"acquisitions-api","timestamp":"2026-01-13T14:39:01.249Z"}
+{"level":"info","message":"Environment variables validated successfully","service":"acquisitions-api","timestamp":"2026-01-13T14:39:03.054Z"}
+{"level":"info","message":"Environment variables validated successfully","service":"acquisitions-api","timestamp":"2026-01-13T14:39:05.459Z"}
+{"level":"info","message":"Environment variables validated successfully","service":"acquisitions-api","timestamp":"2026-01-13T14:46:23.547Z"}
+{"level":"info","message":"Environment variables validated successfully","service":"acquisitions-api","timestamp":"2026-01-13T14:47:06.352Z"}
+{"level":"info","message":"Environment variables validated successfully","service":"acquisitions-api","timestamp":"2026-01-13T14:48:02.438Z"}
+{"level":"info","message":"Environment variables validated successfully","service":"acquisitions-api","timestamp":"2026-01-13T14:49:45.149Z"}
+{"level":"info","message":"Environment variables validated successfully","service":"acquisitions-api","timestamp":"2026-01-13T14:52:32.314Z"}
+{"fingerprint":"OjoxfGN1cm","ip":"::1","level":"info","message":"Security event logged","method":"POST","service":"acquisitions-api","suspiciousHeaders":[],"suspiciousUA":true,"timestamp":"2026-01-13T14:52:50.305Z","url":"/api/auth/sign-in","userAgent":"curl/8.12.1"}
+{"level":"info","message":"Environment variables validated successfully","service":"acquisitions-api","timestamp":"2026-01-13T14:52:50.893Z"}
+{"fingerprint":"OjoxfGN1cm","ip":"::1","level":"info","message":"Security event logged","method":"GET","service":"acquisitions-api","suspiciousHeaders":[],"suspiciousUA":true,"timestamp":"2026-01-13T14:53:10.861Z","url":"/api/users/profile","userAgent":"curl/8.12.1"}
+{"level":"info","message":"::1 - - [13/Jan/2026:14:53:10 +0000] \"GET /api/users/profile HTTP/1.1\" 401 55 \"-\" \"curl/8.12.1\"","service":"acquisitions-api","timestamp":"2026-01-13T14:53:10.876Z"}
+{"level":"info","message":"::1 - - [13/Jan/2026:14:53:25 +0000] \"GET /api/users/profile HTTP/1.1\" 401 55 \"-\" \"HTTPie\"","service":"acquisitions-api","timestamp":"2026-01-13T14:53:25.292Z"}
+{"level":"info","message":"::1 - - [13/Jan/2026:14:53:25 +0000] \"GET /api/users/profile HTTP/1.1\" 401 55 \"-\" \"HTTPie\"","service":"acquisitions-api","timestamp":"2026-01-13T14:53:25.921Z"}
+{"level":"info","message":"::1 - - [13/Jan/2026:14:53:26 +0000] \"GET /api/users/profile HTTP/1.1\" 401 55 \"-\" \"HTTPie\"","service":"acquisitions-api","timestamp":"2026-01-13T14:53:26.103Z"}
+{"level":"info","message":"::1 - - [13/Jan/2026:14:53:27 +0000] \"GET /api/users/profile HTTP/1.1\" 401 55 \"-\" \"HTTPie\"","service":"acquisitions-api","timestamp":"2026-01-13T14:53:27.801Z"}
+{"level":"info","message":"::1 - - [13/Jan/2026:14:53:34 +0000] \"GET /api/users HTTP/1.1\" 401 55 \"-\" \"HTTPie\"","service":"acquisitions-api","timestamp":"2026-01-13T14:53:34.673Z"}
+{"level":"info","message":"Environment variables validated successfully","service":"acquisitions-api","timestamp":"2026-01-13T14:55:22.091Z"}
+{"level":"info","message":"::1 - - [13/Jan/2026:14:56:06 +0000] \"GET /health HTTP/1.1\" 200 74 \"-\" \"Mozilla/5.0 (Windows NT; Windows NT 10.0; fr-FR) WindowsPowerShell/5.1.19041.6456\"","service":"acquisitions-api","timestamp":"2026-01-13T14:56:06.917Z"}
+{"level":"info","message":"User test@example.com authenticated successfully","service":"acquisitions-api","timestamp":"2026-01-13T14:56:44.530Z"}
+{"level":"info","message":"User signed in successfully: test@example.com","service":"acquisitions-api","timestamp":"2026-01-13T14:56:44.540Z"}
+{"level":"info","message":"::1 - - [13/Jan/2026:14:56:44 +0000] \"POST /api/auth/sign-in HTTP/1.1\" 200 117 \"-\" \"Mozilla/5.0 (Windows NT; Windows NT 10.0; fr-FR) WindowsPowerShell/5.1.19041.6456\"","service":"acquisitions-api","timestamp":"2026-01-13T14:56:44.542Z"}
+{"level":"info","message":"User test@example.com authenticated successfully","service":"acquisitions-api","timestamp":"2026-01-13T14:56:55.505Z"}
+{"level":"info","message":"User signed in successfully: test@example.com","service":"acquisitions-api","timestamp":"2026-01-13T14:56:55.508Z"}
+{"level":"info","message":"::1 - - [13/Jan/2026:14:56:55 +0000] \"POST /api/auth/sign-in HTTP/1.1\" 200 117 \"-\" \"Mozilla/5.0 (Windows NT; Windows NT 10.0; fr-FR) WindowsPowerShell/5.1.19041.6456\"","service":"acquisitions-api","timestamp":"2026-01-13T14:56:55.510Z"}
+{"level":"info","message":"User test@example.com authenticated successfully","service":"acquisitions-api","timestamp":"2026-01-13T14:57:05.092Z"}
+{"level":"info","message":"::1 - - [13/Jan/2026:14:57:05 +0000] \"GET /api/users/profile HTTP/1.1\" 200 83 \"-\" \"Mozilla/5.0 (Windows NT; Windows NT 10.0; fr-FR) WindowsPowerShell/5.1.19041.6456\"","service":"acquisitions-api","timestamp":"2026-01-13T14:57:05.093Z"}
+{"level":"info","message":"User test@example.com authenticated successfully","service":"acquisitions-api","timestamp":"2026-01-13T14:57:17.129Z"}
+{"level":"warn","message":"User test@example.com attempted to access restricted resource. Role: user, Required: admin","service":"acquisitions-api","timestamp":"2026-01-13T14:57:17.130Z"}
+{"level":"info","message":"::1 - - [13/Jan/2026:14:57:17 +0000] \"GET /api/users HTTP/1.1\" 403 58 \"-\" \"Mozilla/5.0 (Windows NT; Windows NT 10.0; fr-FR) WindowsPowerShell/5.1.19041.6456\"","service":"acquisitions-api","timestamp":"2026-01-13T14:57:17.131Z"}
+{"level":"info","message":"User test@example.com authenticated successfully","service":"acquisitions-api","timestamp":"2026-01-13T14:57:26.395Z"}
+{"level":"warn","message":"User test@example.com attempted to access restricted resource. Role: user, Required: admin","service":"acquisitions-api","timestamp":"2026-01-13T14:57:26.397Z"}
+{"level":"info","message":"::1 - - [13/Jan/2026:14:57:26 +0000] \"GET /api/users/3 HTTP/1.1\" 403 58 \"-\" \"Mozilla/5.0 (Windows NT; Windows NT 10.0; fr-FR) WindowsPowerShell/5.1.19041.6456\"","service":"acquisitions-api","timestamp":"2026-01-13T14:57:26.399Z"}
+{"level":"info","message":"User test@example.com authenticated successfully","service":"acquisitions-api","timestamp":"2026-01-13T14:57:37.598Z"}
+{"level":"info","message":"Updating user ID: 3 by user: test@example.com","service":"acquisitions-api","timestamp":"2026-01-13T14:57:37.601Z"}
+{"level":"info","message":"User test@example.com updated successfully","service":"acquisitions-api","timestamp":"2026-01-13T14:57:38.140Z"}
+{"level":"info","message":"User test@example.com updated successfully","service":"acquisitions-api","timestamp":"2026-01-13T14:57:38.141Z"}
+{"level":"info","message":"::1 - - [13/Jan/2026:14:57:38 +0000] \"PUT /api/users/3 HTTP/1.1\" 200 203 \"-\" \"Mozilla/5.0 (Windows NT; Windows NT 10.0; fr-FR) WindowsPowerShell/5.1.19041.6456\"","service":"acquisitions-api","timestamp":"2026-01-13T14:57:38.142Z"}
+{"level":"info","message":"User test@example.com authenticated successfully","service":"acquisitions-api","timestamp":"2026-01-13T14:58:15.613Z"}
+{"level":"info","message":"::1 - - [13/Jan/2026:14:58:15 +0000] \"PUT /api/users/1 HTTP/1.1\" 403 59 \"-\" \"Mozilla/5.0 (Windows NT; Windows NT 10.0; fr-FR) WindowsPowerShell/5.1.19041.6456\"","service":"acquisitions-api","timestamp":"2026-01-13T14:58:15.615Z"}
+{"level":"info","message":"User test@example.com authenticated successfully","service":"acquisitions-api","timestamp":"2026-01-13T14:58:26.276Z"}
+{"level":"warn","message":"User test@example.com attempted to access restricted resource. Role: user, Required: admin","service":"acquisitions-api","timestamp":"2026-01-13T14:58:26.277Z"}
+{"level":"info","message":"::1 - - [13/Jan/2026:14:58:26 +0000] \"DELETE /api/users/99 HTTP/1.1\" 403 58 \"-\" \"Mozilla/5.0 (Windows NT; Windows NT 10.0; fr-FR) WindowsPowerShell/5.1.19041.6456\"","service":"acquisitions-api","timestamp":"2026-01-13T14:58:26.280Z"}
+{"level":"warn","message":"Rate limit exceeded for ::1. Blocking for 1800000ms","service":"acquisitions-api","timestamp":"2026-01-13T14:59:53.966Z"}
+{"level":"info","message":"::1 - - [13/Jan/2026:14:59:53 +0000] \"POST /api/auth/sign-in HTTP/1.1\" 429 87 \"-\" \"Mozilla/5.0 (Windows NT; Windows NT 10.0; fr-FR) WindowsPowerShell/5.1.19041.6456\"","service":"acquisitions-api","timestamp":"2026-01-13T14:59:53.968Z"}
+{"level":"info","message":"Environment variables validated successfully","service":"acquisitions-api","timestamp":"2026-01-13T15:00:06.702Z"}
+{"level":"info","message":"User test@example.com authenticated successfully","service":"acquisitions-api","timestamp":"2026-01-13T15:00:22.653Z"}
+{"level":"info","message":"User signed in successfully: test@example.com","service":"acquisitions-api","timestamp":"2026-01-13T15:00:22.659Z"}
+{"level":"info","message":"::1 - - [13/Jan/2026:15:00:22 +0000] \"POST /api/auth/sign-in HTTP/1.1\" 200 126 \"-\" \"Mozilla/5.0 (Windows NT; Windows NT 10.0; fr-FR) WindowsPowerShell/5.1.19041.6456\"","service":"acquisitions-api","timestamp":"2026-01-13T15:00:22.665Z"}
+{"level":"info","message":"User test@example.com authenticated successfully","service":"acquisitions-api","timestamp":"2026-01-13T15:00:33.503Z"}
+{"level":"info","message":"Getting all users","service":"acquisitions-api","timestamp":"2026-01-13T15:00:33.505Z"}
+{"level":"info","message":"Retrieved 4 users successfully","service":"acquisitions-api","timestamp":"2026-01-13T15:00:33.775Z"}
+{"level":"info","message":"::1 - - [13/Jan/2026:15:00:33 +0000] \"GET /api/users HTTP/1.1\" 200 656 \"-\" \"Mozilla/5.0 (Windows NT; Windows NT 10.0; fr-FR) WindowsPowerShell/5.1.19041.6456\"","service":"acquisitions-api","timestamp":"2026-01-13T15:00:33.784Z"}
+{"level":"info","message":"User test@example.com authenticated successfully","service":"acquisitions-api","timestamp":"2026-01-13T15:00:43.545Z"}
+{"level":"info","message":"Getting user by ID: 1","service":"acquisitions-api","timestamp":"2026-01-13T15:00:43.548Z"}
+{"level":"info","message":"User souhail@gmail.com retrieved successfully","service":"acquisitions-api","timestamp":"2026-01-13T15:00:43.800Z"}
+{"level":"info","message":"::1 - - [13/Jan/2026:15:00:43 +0000] \"GET /api/users/1 HTTP/1.1\" 200 196 \"-\" \"Mozilla/5.0 (Windows NT; Windows NT 10.0; fr-FR) WindowsPowerShell/5.1.19041.6456\"","service":"acquisitions-api","timestamp":"2026-01-13T15:00:43.807Z"}
+{"level":"info","message":"User test@example.com authenticated successfully","service":"acquisitions-api","timestamp":"2026-01-13T15:00:53.355Z"}
+{"level":"info","message":"Deleting user ID: 4 by admin: test@example.com","service":"acquisitions-api","timestamp":"2026-01-13T15:00:53.356Z"}
+{"level":"info","message":"User john@example.com deleted successfully","service":"acquisitions-api","timestamp":"2026-01-13T15:00:53.833Z"}
+{"level":"info","message":"User john@example.com deleted successfully","service":"acquisitions-api","timestamp":"2026-01-13T15:00:53.834Z"}
+{"level":"info","message":"::1 - - [13/Jan/2026:15:00:53 +0000] \"DELETE /api/users/4 HTTP/1.1\" 200 110 \"-\" \"Mozilla/5.0 (Windows NT; Windows NT 10.0; fr-FR) WindowsPowerShell/5.1.19041.6456\"","service":"acquisitions-api","timestamp":"2026-01-13T15:00:53.838Z"}
+{"level":"info","message":"::1 - - [13/Jan/2026:15:02:17 +0000] \"GET /api/users/profile HTTP/1.1\" 401 55 \"-\" \"HTTPie\"","service":"acquisitions-api","timestamp":"2026-01-13T15:02:17.056Z"}

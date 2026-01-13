@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: acquisitions-service
+  namespace: acquisitions
+  labels:
+    app: acquisitions
+spec:
+  type: ClusterIP
+  selector:
+    app: acquisitions
+    component: api
+  ports:
+    - name: http
+      port: 80
+      targetPort: 3000
+      protocol: TCP

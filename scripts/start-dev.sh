@@ -1,4 +1,4 @@
-#!/bin/bash
+ #!/bin/bash
 
 # Development startup script for Acquisition App with Neon Local
 # This script starts the application in development mode with Neon Local

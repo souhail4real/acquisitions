@@ -539,6 +539,156 @@ docker pull souhail4real/acquisitions:latest
 
 ---
 
+## Kubernetes Deployment
+
+The application includes production-ready Kubernetes manifests in the `/k8s` directory.
+
+### Manifests Overview
+
+| File | Resource | Description |
+|------|----------|-------------|
+| `namespace.yaml` | Namespace | Isolated namespace for the application |
+| `configmap.yaml` | ConfigMap | Non-sensitive environment variables |
+| `secret.yaml` | Secret | Sensitive data (DATABASE_URL, JWT_SECRET) |
+| `deployment.yaml` | Deployment | 3 replicas with rolling updates |
+| `service.yaml` | Service | ClusterIP service on port 80 |
+
+### Prerequisites
+
+- Kubernetes cluster (minikube, kind, EKS, GKE, AKS, etc.)
+- `kubectl` configured and connected to your cluster
+- Docker image available: `souhail4real/acquisitions:latest`
+
+### Deployment Steps
+
+#### 1. Configure Secrets
+
+First, encode your actual secrets in base64:
+
+```bash
+# Encode your database URL
+echo -n 'postgresql://user:password@your-host.neon.tech/neondb?sslmode=require' | base64
+
+# Encode your JWT secret
+echo -n 'your-super-secret-jwt-key-min-32-characters' | base64
+```
+
+Edit `k8s/secret.yaml` and replace the placeholder values with your encoded secrets.
+
+#### 2. Deploy to Kubernetes
+
+```bash
+# Apply all manifests in order
+kubectl apply -f k8s/namespace.yaml
+kubectl apply -f k8s/configmap.yaml
+kubectl apply -f k8s/secret.yaml
+kubectl apply -f k8s/deployment.yaml
+kubectl apply -f k8s/service.yaml
+
+# Or deploy everything at once
+kubectl apply -f k8s/
+```
+
+#### 3. Verify Deployment
+
+```bash
+# Check namespace
+kubectl get ns acquisitions
+
+# Check all resources in the namespace
+kubectl get all -n acquisitions
+
+# Check pods are running
+kubectl get pods -n acquisitions
+
+# Check pod logs
+kubectl logs -n acquisitions -l app=acquisitions --tail=50
+
+# Check deployment status
+kubectl describe deployment acquisitions-api -n acquisitions
+```
+
+#### 4. Test the Application
+
+```bash
+# Port forward to access locally
+kubectl port-forward -n acquisitions svc/acquisitions-service 8080:80
+
+# In another terminal, test the health endpoint
+curl http://localhost:8080/health
+
+# Test the API
+curl http://localhost:8080/api
+```
+
+### Scaling
+
+```bash
+# Scale up to 5 replicas
+kubectl scale deployment acquisitions-api -n acquisitions --replicas=5
+
+# Scale down to 2 replicas
+kubectl scale deployment acquisitions-api -n acquisitions --replicas=2
+```
+
+### Rolling Updates
+
+When you push a new Docker image, trigger a rolling update:
+
+```bash
+# Restart deployment with new image
+kubectl rollout restart deployment acquisitions-api -n acquisitions
+
+# Watch the rollout status
+kubectl rollout status deployment acquisitions-api -n acquisitions
+
+# Rollback if needed
+kubectl rollout undo deployment acquisitions-api -n acquisitions
+```
+
+### Cleanup
+
+```bash
+# Delete all resources
+kubectl delete -f k8s/
+
+# Or delete the entire namespace
+kubectl delete namespace acquisitions
+```
+
+### Architecture in Kubernetes
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                        KUBERNETES CLUSTER                        │
+│                                                                  │
+│  ┌────────────────────────────────────────────────────────────┐ │
+│  │                   NAMESPACE: acquisitions                   │ │
+│  │                                                             │ │
+│  │  ┌─────────────┐    ┌────────────────────────────────────┐ │ │
+│  │  │   Service   │    │          Deployment                │ │ │
+│  │  │ ClusterIP   │───▶│  ┌─────┐ ┌─────┐ ┌─────┐          │ │ │
+│  │  │   :80       │    │  │Pod 1│ │Pod 2│ │Pod 3│          │ │ │
+│  │  └─────────────┘    │  │:3000│ │:3000│ │:3000│          │ │ │
+│  │         ▲           │  └─────┘ └─────┘ └─────┘          │ │ │
+│  │         │           └────────────────────────────────────┘ │ │
+│  │         │                          │                        │ │
+│  │  ┌──────┴──────┐    ┌──────────────┴──────────────┐       │ │
+│  │  │ Port Forward │    │   ConfigMap    │   Secret   │       │ │
+│  │  │ kubectl      │    │   (env vars)   │  (secrets) │       │ │
+│  │  └─────────────┘    └─────────────────────────────┘       │ │
+│  └────────────────────────────────────────────────────────────┘ │
+│                                │                                 │
+└────────────────────────────────│─────────────────────────────────┘
+                                 ▼
+                    ┌─────────────────────────┐
+                    │   Neon PostgreSQL       │
+                    │   (External Database)   │
+                    └─────────────────────────┘
+```
+
+---
+
 ## Project Structure
 
 ```
@@ -577,6 +727,12 @@ acquisitions/
 ├── test/
 │   └── simple.test.js         # Test suite
 ├── drizzle/                   # Migration files
+├── k8s/                       # Kubernetes manifests
+│   ├── namespace.yaml         # Namespace definition
+│   ├── configmap.yaml         # Environment configuration
+│   ├── secret.yaml            # Sensitive credentials
+│   ├── deployment.yaml        # Pod deployment config
+│   └── service.yaml           # Service discovery
 ├── .github/workflows/         # CI/CD pipelines
 ├── docker-compose.*.yml       # Docker Compose configs
 ├── Dockerfile                 # Container definition
