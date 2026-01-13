@@ -7,6 +7,7 @@
 **Problem:** Token expiration errors weren't being detected
 
 **JWT.js Changes:**
+
 ```diff
   verify: token => {
       try {
@@ -19,12 +20,13 @@
 ```
 
 **Now in auth.middleware.js, this code WORKS:**
+
 ```javascript
 if (error.name === 'TokenExpiredError') {
-    return res.status(401).json({ message: 'Token expired' });
+  return res.status(401).json({ message: 'Token expired' });
 }
 if (error.name === 'JsonWebTokenError') {
-    return res.status(401).json({ message: 'Invalid token' });
+  return res.status(401).json({ message: 'Invalid token' });
 }
 ```
 
@@ -91,10 +93,10 @@ app.use((req, res) => {
 + app.use((err, req, res, next) => {
 +     logger.error('Unhandled error', err);
 +     const statusCode = err.statusCode || 500;
-+     const message = process.env.NODE_ENV === 'production' 
-+         ? 'Internal server error' 
++     const message = process.env.NODE_ENV === 'production'
++         ? 'Internal server error'
 +         : err.message;
-+     
++
 +     res.status(statusCode).json({
 +         error: 'Internal server error',
 +         message: message,
@@ -120,6 +122,7 @@ app.use('/api/auth', authRateLimiter, authValidation, authRoutes);
 ```
 
 **Rate limits applied:**
+
 - Auth endpoints: 5 attempts per 15 minutes
 - Other API endpoints: 100 requests per 15 minutes
 
@@ -132,29 +135,39 @@ app.use('/api/auth', authRateLimiter, authValidation, authRoutes);
 **Problem:** App would run with insecure defaults if env vars missing
 
 **New file: `src/config/env.js`**
+
 ```javascript
 export const validateEnv = () => {
-    const requiredEnvVars = ['DATABASE_URL', 'JWT_SECRET'];
-    const missing = [];
+  const requiredEnvVars = ['DATABASE_URL', 'JWT_SECRET'];
+  const missing = [];
 
-    requiredEnvVars.forEach(envVar => {
-        if (!process.env[envVar]) {
-            missing.push(envVar);
-        }
-    });
-
-    if (missing.length > 0) {
-        logger.error(`Missing required environment variables: ${missing.join(', ')}`);
-        throw new Error(`Missing required environment variables: ${missing.join(', ')}`);
+  requiredEnvVars.forEach(envVar => {
+    if (!process.env[envVar]) {
+      missing.push(envVar);
     }
+  });
 
-    if (process.env.JWT_SECRET === 'your-secret-key-please-change-in-production') {
-        logger.warn('⚠️  Using default JWT_SECRET! Change JWT_SECRET in production!');
-    }
+  if (missing.length > 0) {
+    logger.error(
+      `Missing required environment variables: ${missing.join(', ')}`
+    );
+    throw new Error(
+      `Missing required environment variables: ${missing.join(', ')}`
+    );
+  }
+
+  if (
+    process.env.JWT_SECRET === 'your-secret-key-please-change-in-production'
+  ) {
+    logger.warn(
+      '⚠️  Using default JWT_SECRET! Change JWT_SECRET in production!'
+    );
+  }
 };
 ```
 
 **Updated: `src/index.js`**
+
 ```javascript
 import 'dotenv/config';
 + import { validateEnv } from './config/env.js';
@@ -165,6 +178,7 @@ import './server.js';
 ```
 
 **Updated: `src/utils/jwt.js`**
+
 ```javascript
 - const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-please-change-in-production';
 + const JWT_SECRET = process.env.JWT_SECRET; // Required!
@@ -181,7 +195,7 @@ import './server.js';
 ✅ `src/models/user.model.js` - Unique constraint added  
 ✅ `src/app.js` - Error handler + rate limiter  
 ✅ `src/index.js` - Env validation integration  
-✅ `src/config/env.js` - NEW: Environment validation  
+✅ `src/config/env.js` - NEW: Environment validation
 
 ---
 
@@ -204,8 +218,8 @@ npm run dev
 ## Status: ✅ ALL ISSUES FIXED
 
 Your API is now:
+
 - ✅ More secure (env vars, unique emails, rate limiting)
 - ✅ More reliable (error handling, proper middleware)
 - ✅ Better UX (matching JWT and cookie expiration)
 - ✅ Production-ready (all edge cases covered)
-

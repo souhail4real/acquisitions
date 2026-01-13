@@ -7,6 +7,7 @@ This project includes three GitHub Actions workflows for continuous integration 
 **Triggers:** Push and Pull Requests to `main` and `staging` branches
 
 **What it does:**
+
 - Uses Node.js 20.x with npm caching
 - Installs dependencies with `npm ci`
 - Runs ESLint with `npm run lint`
@@ -14,6 +15,7 @@ This project includes three GitHub Actions workflows for continuous integration 
 - Provides clear error messages and fix suggestions
 
 **Fix Commands:**
+
 - `npm run lint:fix` - Auto-fix ESLint issues and format code
 - `npm run format` - Format code with Prettier
 
@@ -22,6 +24,7 @@ This project includes three GitHub Actions workflows for continuous integration 
 **Triggers:** Push and Pull Requests to `main` and `staging` branches
 
 **What it does:**
+
 - Sets up Node.js 20.x with PostgreSQL 15 for testing
 - Configures test environment variables
 - Runs database migrations if available
@@ -30,6 +33,7 @@ This project includes three GitHub Actions workflows for continuous integration 
 - Generates GitHub step summary with test results
 
 **Environment Variables:**
+
 - `NODE_ENV=test`
 - `NODE_OPTIONS=--experimental-vm-modules`
 - `DATABASE_URL=postgresql://test_user:test_password@localhost:5432/test_db`
@@ -39,6 +43,7 @@ This project includes three GitHub Actions workflows for continuous integration 
 **Triggers:** Push to `main` branch and manual dispatch
 
 **What it does:**
+
 - Builds multi-platform Docker images (linux/amd64, linux/arm64)
 - Uses Docker Buildx with caching for efficiency
 - Logs in to Docker Hub using secrets
@@ -47,10 +52,12 @@ This project includes three GitHub Actions workflows for continuous integration 
 - Creates comprehensive build summary
 
 **Required Secrets:**
+
 - `DOCKER_USERNAME` - Docker Hub username
 - `DOCKER_PASSWORD` - Docker Hub password/token
 
 **Generated Tags:**
+
 - `latest` (main branch only)
 - `main-<commit-sha>`
 - `prod-YYYYMMDD-HHmmss` (main branch only)
@@ -60,6 +67,7 @@ This project includes three GitHub Actions workflows for continuous integration 
 ### 1. Configure Docker Hub Secrets
 
 Add these secrets to your GitHub repository:
+
 ```
 Settings → Secrets and Variables → Actions
 ```
@@ -70,9 +78,10 @@ Settings → Secrets and Variables → Actions
 ### 2. Customize Docker Image Name
 
 Update the `IMAGE_NAME` environment variable in `docker-build-and-push.yml`:
+
 ```yaml
 env:
-  IMAGE_NAME: your-app-name  # Change this to your desired image name
+  IMAGE_NAME: your-app-name # Change this to your desired image name
 ```
 
 ### 3. Add Test Files
@@ -80,6 +89,7 @@ env:
 Create test files in the `test/` directory. The workflow will automatically run them with Node.js built-in test runner.
 
 Example test structure:
+
 ```
 test/
 ├── basic.test.js
@@ -90,6 +100,7 @@ test/
 ### 4. Configure Branch Protection
 
 For best practices, enable branch protection rules:
+
 ```
 Settings → Branches → Add rule
 ```

@@ -3,6 +3,7 @@
 ## Critical Issues Found
 
 ### 1. **JWT Token Error Handling Issue** ⚠️
+
 **File:** `src/utils/jwt.js`
 **Problem:** Both `sign()` and `verify()` methods catch errors but throw a generic error message instead of re-throwing the original error.
 
@@ -25,16 +26,17 @@ verify: token => {
 ---
 
 ### 2. **Auth Middleware Error Name Detection Fails** ⚠️
+
 **File:** `src/middleware/auth.middleware.js` (Lines 35-50)
 **Problem:** The error handling code checks for `error.name === 'TokenExpiredError'` and `error.name === 'JsonWebTokenError'`, but due to issue #1, these will never match.
 
 ```javascript
 // This block never executes because error is always 'Error'
 if (error.name === 'TokenExpiredError') {
-    return res.status(401).json({
-        error: 'Access denied',
-        message: 'Token expired',
-    });
+  return res.status(401).json({
+    error: 'Access denied',
+    message: 'Token expired',
+  });
 }
 ```
 
@@ -43,8 +45,9 @@ if (error.name === 'TokenExpiredError') {
 ---
 
 ### 3. **Cookies Not Attached to Responses** ⚠️
+
 **File:** `src/utils/cookies.js`
-**Problem:** Cookie `maxAge` is set to 15 minutes (15 * 60 * 1000 = 900,000ms), but JWT token expiration is set to 1 day in `src/utils/jwt.js`.
+**Problem:** Cookie `maxAge` is set to 15 minutes (15 _ 60 _ 1000 = 900,000ms), but JWT token expiration is set to 1 day in `src/utils/jwt.js`.
 
 ```javascript
 // jwt.js
@@ -59,6 +62,7 @@ maxAge: 15 * 60 * 1000, // 15 minutes ❌ Mismatch!
 ---
 
 ### 4. **Email Field Not Unique in Database Schema** ⚠️
+
 **File:** `src/models/user.model.js`
 **Problem:** The `email` field is not marked as unique in the database schema, even though the application treats it as unique.
 
@@ -71,13 +75,14 @@ email: varchar('email', { length: 256 }).notNull(), // ❌ Missing .unique()
 ---
 
 ### 5. **No Error Handler for Async Operations** ⚠️
+
 **File:** `src/app.js`
 **Problem:** No global error handler middleware is defined for catching unhandled errors from async route handlers.
 
 ```javascript
 // Missing:
 app.use((err, req, res, next) => {
-    // Error handler
+  // Error handler
 });
 ```
 
@@ -86,6 +91,7 @@ app.use((err, req, res, next) => {
 ---
 
 ### 6. **Validation Middleware Conflicts** ⚠️
+
 **File:** `src/app.js` (Line 32-35)
 **Problem:** The app applies `apiValidation` middleware globally, but auth routes re-apply `authValidation`:
 
@@ -99,11 +105,13 @@ app.use('/api/auth', authRateLimiter, authValidation, authRoutes); // Applied ag
 ---
 
 ### 7. **Missing Environment Variables Validation** ⚠️
+
 **Files:** `src/utils/jwt.js`, `src/config/database.js`
 **Problem:** Critical environment variables are not validated at startup:
 
 ```javascript
-const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-please-change-in-production';
+const JWT_SECRET =
+  process.env.JWT_SECRET || 'your-secret-key-please-change-in-production';
 ```
 
 **Impact:** The app will run with insecure defaults in production if env vars are missing, creating a security vulnerability.
@@ -111,6 +119,7 @@ const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-please-change-in-p
 ---
 
 ### 8. **Users Routes Missing Rate Limiter** ⚠️
+
 **File:** `src/app.js`
 **Problem:** Auth routes have rate limiting, but users routes don't:
 
@@ -124,12 +133,14 @@ app.use('/api/users', usersRoutes); // ❌ No rate limiter
 ---
 
 ### 9. **No Duplicate Email Check Unique Constraint** ⚠️
+
 **File:** `src/models/user.model.js`
 **Problem:** Email field needs a unique constraint at the database level.
 
 ---
 
 ### 10. **Missing Cookie Options in Clear Function** ⚠️
+
 **File:** `src/utils/cookies.js`
 **Problem:** When clearing cookies, the options don't include `path: '/'`:
 
@@ -145,15 +156,14 @@ clear: (res, name, options = {}) => {
 
 ## Summary of Issues by Severity
 
-| Issue | Severity | Location | Type |
-|-------|----------|----------|------|
-| JWT Error Handling | 🔴 Critical | jwt.js | Bug |
-| Auth Middleware Errors | 🔴 Critical | auth.middleware.js | Bug |
-| Cookie/JWT TTL Mismatch | 🟠 High | cookies.js, jwt.js | Design |
-| Missing Email Unique Constraint | 🟠 High | user.model.js | Database |
-| No Global Error Handler | 🟠 High | app.js | Design |
-| Validation Middleware Conflict | 🟡 Medium | app.js | Design |
-| Missing Env Var Validation | 🟡 Medium | jwt.js, database.js | Security |
-| Missing Rate Limiter (Users) | 🟡 Medium | app.js | Security |
-| Cookie Clear Path Issue | 🟡 Medium | cookies.js | Bug |
-
+| Issue                           | Severity    | Location            | Type     |
+| ------------------------------- | ----------- | ------------------- | -------- |
+| JWT Error Handling              | 🔴 Critical | jwt.js              | Bug      |
+| Auth Middleware Errors          | 🔴 Critical | auth.middleware.js  | Bug      |
+| Cookie/JWT TTL Mismatch         | 🟠 High     | cookies.js, jwt.js  | Design   |
+| Missing Email Unique Constraint | 🟠 High     | user.model.js       | Database |
+| No Global Error Handler         | 🟠 High     | app.js              | Design   |
+| Validation Middleware Conflict  | 🟡 Medium   | app.js              | Design   |
+| Missing Env Var Validation      | 🟡 Medium   | jwt.js, database.js | Security |
+| Missing Rate Limiter (Users)    | 🟡 Medium   | app.js              | Security |
+| Cookie Clear Path Issue         | 🟡 Medium   | cookies.js          | Bug      |

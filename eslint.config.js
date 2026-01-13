@@ -21,7 +21,7 @@ export default [
     },
     rules: {
       indent: ['error', 2, { SwitchCase: 1 }],
-      'linebreak-style': ['error', 'unix'],
+      'linebreak-style': 'off', // Allow both CRLF and LF for cross-platform compatibility
       quotes: ['error', 'single'],
       semi: ['error', 'always'],
       'no-unused-vars': ['error', { argsIgnorePattern: '^_' }],

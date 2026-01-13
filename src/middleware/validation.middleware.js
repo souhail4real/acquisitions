@@ -42,16 +42,16 @@ const detectMaliciousContent = (value, patterns) => {
   return patterns.some(pattern => pattern.test(value));
 };
 
-const sanitizeValue = (value) => {
+const sanitizeValue = value => {
   if (typeof value === 'string') {
     return value
-      .replace(/[<>&"']/g, (char) => {
+      .replace(/[<>&"']/g, char => {
         const entities = {
           '<': '&lt;',
           '>': '&gt;',
           '&': '&amp;',
           '"': '&quot;',
-          "'": '&#x27;'
+          '\'': '&#x27;',
         };
         return entities[char];
       })
@@ -62,11 +62,11 @@ const sanitizeValue = (value) => {
 
 const validateObject = (obj, path = '') => {
   const threats = [];
-  
+
   if (obj === null || obj === undefined) {
     return threats;
   }
-  
+
   if (typeof obj === 'string') {
     if (detectMaliciousContent(obj, SQL_INJECTION_PATTERNS)) {
       threats.push({ type: 'SQL_INJECTION', path, value: obj });
@@ -82,34 +82,30 @@ const validateObject = (obj, path = '') => {
     }
     return threats;
   }
-  
+
   if (Array.isArray(obj)) {
     obj.forEach((item, index) => {
       threats.push(...validateObject(item, `${path}[${index}]`));
     });
     return threats;
   }
-  
+
   if (typeof obj === 'object') {
     Object.keys(obj).forEach(key => {
       const currentPath = path ? `${path}.${key}` : key;
       threats.push(...validateObject(obj[key], currentPath));
     });
   }
-  
+
   return threats;
 };
 
 export const inputValidation = (options = {}) => {
-  const {
-    sanitize = false,
-    blockOnThreat = true,
-    logThreats = true,
-  } = options;
+  const { sanitize = false, blockOnThreat = true, logThreats = true } = options;
 
   return (req, res, next) => {
     const startTime = Date.now();
-    
+
     try {
       // Validate body, query, and params
       const threats = [
@@ -144,17 +140,17 @@ export const inputValidation = (options = {}) => {
 
       // Sanitize if requested
       if (sanitize) {
-        const sanitizeObj = (obj) => {
+        const sanitizeObj = obj => {
           if (obj === null || obj === undefined) return obj;
-          
+
           if (typeof obj === 'string') {
             return sanitizeValue(obj);
           }
-          
+
           if (Array.isArray(obj)) {
             return obj.map(sanitizeObj);
           }
-          
+
           if (typeof obj === 'object') {
             const sanitized = {};
             Object.keys(obj).forEach(key => {
@@ -162,7 +158,7 @@ export const inputValidation = (options = {}) => {
             });
             return sanitized;
           }
-          
+
           return obj;
         };
 
@@ -174,7 +170,7 @@ export const inputValidation = (options = {}) => {
 
       // Add processing time header
       res.set('X-Validation-Time', `${Date.now() - startTime}ms`);
-      
+
       next();
     } catch (error) {
       logger.error('Input validation middleware error', error);

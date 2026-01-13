@@ -1,12 +1,12 @@
 import 'dotenv/config';
 
 // Add error handlers
-process.on('unhandledRejection', (reason) => {
-    console.error('Unhandled Rejection:', reason);
+process.on('unhandledRejection', reason => {
+  console.error('Unhandled Rejection:', reason);
 });
 
-process.on('uncaughtException', (error) => {
-    console.error('Uncaught Exception:', error);
+process.on('uncaughtException', error => {
+  console.error('Uncaught Exception:', error);
 });
 
 // Start the app

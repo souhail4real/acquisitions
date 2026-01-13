@@ -69,24 +69,24 @@ jobs:
         run: |
           echo "## 🐳 Docker Build Summary" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          
+
           if [ "${{ steps.build.outcome }}" == "success" ]; then
             echo "✅ **Status**: Docker image built and pushed successfully!" >> $GITHUB_STEP_SUMMARY
           else
             echo "❌ **Status**: Docker build failed" >> $GITHUB_STEP_SUMMARY
             echo "::error::Docker build failed. Please check the build logs above for details."
           fi
-          
+
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "### 📦 Published Images" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          
+
           # Extract and display tags
           TAGS="${{ steps.meta.outputs.tags }}"
           echo "**Repository**: \`${{ env.REGISTRY }}/${{ secrets.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}\`" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "**Tags**:" >> $GITHUB_STEP_SUMMARY
-          
+
           # Format tags as bullet points
           echo "$TAGS" | while IFS= read -r tag; do
             if [ ! -z "$tag" ]; then
@@ -94,7 +94,7 @@ jobs:
               echo "- \`$tag_name\`" >> $GITHUB_STEP_SUMMARY
             fi
           done
-          
+
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "### 🏗️ Build Information" >> $GITHUB_STEP_SUMMARY
           echo "- **Platforms**: \`linux/amd64\`, \`linux/arm64\`" >> $GITHUB_STEP_SUMMARY
@@ -102,7 +102,7 @@ jobs:
           echo "- **Branch**: \`${{ github.ref_name }}\`" >> $GITHUB_STEP_SUMMARY
           echo "- **Build Time**: \`$(date -u +"%Y-%m-%d %H:%M:%S UTC")\`" >> $GITHUB_STEP_SUMMARY
           echo "- **Image Digest**: \`${{ steps.build.outputs.digest }}\`" >> $GITHUB_STEP_SUMMARY
-          
+
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "### 🚀 Usage" >> $GITHUB_STEP_SUMMARY
           echo "\`\`\`bash" >> $GITHUB_STEP_SUMMARY

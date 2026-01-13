@@ -17,9 +17,9 @@
   "scripts": {
     "start": "node src/index.js",
     "dev": "node --watch src/index.js",
-    "test": "node --test test/ || echo 'No tests found - add your test files to test/ directory'",
-    "lint": "eslint .",
-    "lint:fix": "prettier --write .",
+    "test": "node --test \"test/basic.test.js\"",
+    "lint": "eslint . --max-warnings=0",
+    "lint:fix": "eslint . --fix && prettier --write .",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "db:generate": "drizzle-kit generate",

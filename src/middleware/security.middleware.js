@@ -12,13 +12,13 @@ const SUSPICIOUS_USER_AGENTS = [
   /insomnia/i, // Remove if you use Insomnia for testing
 ];
 
-// Suspicious headers that might indicate automated requests
-const SUSPICIOUS_HEADERS = [
-  'x-forwarded-for',
-  'x-real-ip',
-  'cf-connecting-ip',
-  'x-client-ip',
-];
+// Suspicious headers that might indicate automated requests (reserved for future use)
+// const SUSPICIOUS_HEADERS = [
+//   'x-forwarded-for',
+//   'x-real-ip',
+//   'cf-connecting-ip',
+//   'x-client-ip',
+// ];
 
 // Known malicious IPs (you can extend this list)
 const BLOCKED_IPS = new Set([
@@ -29,20 +29,20 @@ const BLOCKED_IPS = new Set([
 // Request fingerprinting for anomaly detection
 const requestFingerprints = new Map();
 
-const generateFingerprint = (req) => {
+const generateFingerprint = req => {
   const components = [
     req.ip,
     req.get('User-Agent') || '',
     req.get('Accept-Language') || '',
     req.get('Accept-Encoding') || '',
   ];
-  
+
   return Buffer.from(components.join('|')).toString('base64');
 };
 
 export const securityMiddleware = (req, res, next) => {
   const startTime = Date.now();
-  
+
   try {
     // 1. Block known malicious IPs
     if (BLOCKED_IPS.has(req.ip)) {
@@ -55,10 +55,14 @@ export const securityMiddleware = (req, res, next) => {
 
     // 2. Check for suspicious user agents (configurable)
     const userAgent = req.get('User-Agent') || '';
-    const suspiciousUA = SUSPICIOUS_USER_AGENTS.some(pattern => pattern.test(userAgent));
-    
+    const suspiciousUA = SUSPICIOUS_USER_AGENTS.some(pattern =>
+      pattern.test(userAgent)
+    );
+
     if (suspiciousUA && process.env.BLOCK_SUSPICIOUS_UA === 'true') {
-      logger.warn(`Suspicious user agent detected: ${userAgent} from IP: ${req.ip}`);
+      logger.warn(
+        `Suspicious user agent detected: ${userAgent} from IP: ${req.ip}`
+      );
       return res.status(403).json({
         error: 'Access denied',
         message: 'Request blocked',
@@ -66,9 +70,10 @@ export const securityMiddleware = (req, res, next) => {
     }
 
     // 3. Header validation
-    const suspiciousHeaders = Object.keys(req.headers).filter(header => 
-      header.toLowerCase().includes('x-forwarded') && 
-      req.headers[header].includes(',')
+    const suspiciousHeaders = Object.keys(req.headers).filter(
+      header =>
+        header.toLowerCase().includes('x-forwarded') &&
+        req.headers[header].includes(',')
     );
 
     if (suspiciousHeaders.length > 0) {
@@ -82,7 +87,9 @@ export const securityMiddleware = (req, res, next) => {
     const maxSize = parseInt(process.env.MAX_REQUEST_SIZE || '10485760'); // 10MB default
 
     if (contentLength > maxSize) {
-      logger.warn(`Request too large: ${contentLength} bytes from IP: ${req.ip}`);
+      logger.warn(
+        `Request too large: ${contentLength} bytes from IP: ${req.ip}`
+      );
       return res.status(413).json({
         error: 'Payload too large',
         message: `Request size exceeds ${maxSize} bytes`,
@@ -92,16 +99,19 @@ export const securityMiddleware = (req, res, next) => {
     // 5. Request fingerprinting and anomaly detection
     const fingerprint = generateFingerprint(req);
     const now = Date.now();
-    
+
     if (requestFingerprints.has(fingerprint)) {
       const data = requestFingerprints.get(fingerprint);
       data.count += 1;
       data.lastSeen = now;
-      
+
       // If too many requests from same fingerprint in short time
-      if (data.count > 10 && (now - data.firstSeen) < 60000) { // 10 requests in 1 minute
-        logger.warn(`Potential bot detected - fingerprint: ${fingerprint.substring(0, 10)}... from IP: ${req.ip}`);
-        
+      if (data.count > 10 && now - data.firstSeen < 60000) {
+        // 10 requests in 1 minute
+        logger.warn(
+          `Potential bot detected - fingerprint: ${fingerprint.substring(0, 10)}... from IP: ${req.ip}`
+        );
+
         if (process.env.BLOCK_RAPID_REQUESTS === 'true') {
           return res.status(429).json({
             error: 'Too many requests',
@@ -119,7 +129,8 @@ export const securityMiddleware = (req, res, next) => {
     }
 
     // 6. Clean old fingerprints (every hour)
-    if (Math.random() < 0.001) { // 0.1% chance per request
+    if (Math.random() < 0.001) {
+      // 0.1% chance per request
       const oneHour = 60 * 60 * 1000;
       for (const [fp, data] of requestFingerprints.entries()) {
         if (now - data.lastSeen > oneHour) {
@@ -152,7 +163,7 @@ export const securityMiddleware = (req, res, next) => {
 
     // Add processing time
     res.set('X-Security-Check-Time', `${Date.now() - startTime}ms`);
-    
+
     next();
   } catch (error) {
     logger.error('Security middleware error', error);
@@ -166,23 +177,25 @@ export const securityMiddleware = (req, res, next) => {
 // IP whitelist middleware for admin routes
 export const ipWhitelist = (allowedIPs = []) => {
   const allowedIPsSet = new Set(allowedIPs);
-  
+
   return (req, res, next) => {
     if (allowedIPsSet.size === 0) {
       // If no IPs specified, allow all
       return next();
     }
-    
+
     const clientIP = req.ip;
-    
+
     if (!allowedIPsSet.has(clientIP)) {
-      logger.warn(`IP not whitelisted: ${clientIP} attempting to access ${req.originalUrl}`);
+      logger.warn(
+        `IP not whitelisted: ${clientIP} attempting to access ${req.originalUrl}`
+      );
       return res.status(403).json({
         error: 'Access denied',
         message: 'IP not authorized',
       });
     }
-    
+
     next();
   };
 };
@@ -190,13 +203,16 @@ export const ipWhitelist = (allowedIPs = []) => {
 // CORS configuration middleware
 export const corsConfig = (req, res, next) => {
   const origin = req.get('Origin');
-  const allowedOrigins = (process.env.ALLOWED_ORIGINS || 'http://localhost:3000,http://localhost:5173').split(',');
-  
+  const allowedOrigins = (
+    process.env.ALLOWED_ORIGINS || 'http://localhost:3000,http://localhost:5173'
+  ).split(',');
+
   if (!origin || allowedOrigins.includes(origin)) {
     res.set({
       'Access-Control-Allow-Origin': origin || '*',
       'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-      'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-Requested-With',
+      'Access-Control-Allow-Headers':
+        'Content-Type, Authorization, X-Requested-With',
       'Access-Control-Allow-Credentials': 'true',
       'Access-Control-Max-Age': '86400', // 24 hours
     });
@@ -207,11 +223,11 @@ export const corsConfig = (req, res, next) => {
       message: 'Origin not allowed',
     });
   }
-  
+
   if (req.method === 'OPTIONS') {
     return res.status(204).end();
   }
-  
+
   next();
 };
 

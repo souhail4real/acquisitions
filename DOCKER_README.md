@@ -75,7 +75,7 @@ docker compose -f docker-compose.prod.yml up --build -d
 
 ### Getting Neon Credentials
 
-1. **NEON_API_KEY**: 
+1. **NEON_API_KEY**:
    - Go to [Neon Console](https://console.neon.tech)
    - Navigate to **Account Settings** → **API Keys**
    - Create a new API key
@@ -96,16 +96,16 @@ docker compose -f docker-compose.prod.yml up --build -d
 
 ### Environment Variables
 
-| Variable | Development | Production | Description |
-|----------|-------------|------------|-------------|
-| `NODE_ENV` | `development` | `production` | Environment mode |
-| `DATABASE_URL` | Auto-configured | Required | Neon connection string |
-| `NEON_API_KEY` | Required | Not needed | Neon API key for local proxy |
-| `NEON_PROJECT_ID` | Required | Not needed | Your Neon project ID |
-| `PARENT_BRANCH_ID` | Optional | Not needed | Parent branch for ephemeral copies |
-| `JWT_SECRET` | Default provided | **Required** | JWT signing secret |
-| `USE_NEON_LOCAL` | `true` | `false` | Enable/disable Neon Local proxy |
-| `DELETE_BRANCH` | `true` | N/A | Delete ephemeral branch on stop |
+| Variable           | Development      | Production   | Description                        |
+| ------------------ | ---------------- | ------------ | ---------------------------------- |
+| `NODE_ENV`         | `development`    | `production` | Environment mode                   |
+| `DATABASE_URL`     | Auto-configured  | Required     | Neon connection string             |
+| `NEON_API_KEY`     | Required         | Not needed   | Neon API key for local proxy       |
+| `NEON_PROJECT_ID`  | Required         | Not needed   | Your Neon project ID               |
+| `PARENT_BRANCH_ID` | Optional         | Not needed   | Parent branch for ephemeral copies |
+| `JWT_SECRET`       | Default provided | **Required** | JWT signing secret                 |
+| `USE_NEON_LOCAL`   | `true`           | `false`      | Enable/disable Neon Local proxy    |
+| `DELETE_BRANCH`    | `true`           | N/A          | Delete ephemeral branch on stop    |
 
 ---
 
@@ -114,6 +114,7 @@ docker compose -f docker-compose.prod.yml up --build -d
 ### How Neon Local Works
 
 Neon Local creates **ephemeral database branches** that:
+
 - Are automatically created when the container starts
 - Are automatically deleted when the container stops
 - Contain a full copy of your parent branch data
@@ -183,18 +184,21 @@ docker compose -f docker-compose.dev.yml stop
 1. **Set Environment Variables**
 
    Using a `.env` file (not recommended for production):
+
    ```bash
    cp .env.production .env
    # Edit .env with your production values
    ```
 
    Using environment variables (recommended):
+
    ```bash
    export DATABASE_URL="postgresql://neondb_owner:xxx@ep-xxx.neon.tech/neondb?sslmode=require"
    export JWT_SECRET="your-very-secure-production-secret"
    ```
 
    Using Docker secrets or a secrets manager (best practice):
+
    ```bash
    # Example with Docker secrets
    echo "your-database-url" | docker secret create database_url -
@@ -283,27 +287,35 @@ docker compose -f docker-compose.dev.yml exec app env | grep -E "(DATABASE|NEON|
 ### Common Issues
 
 **1. Neon Local fails to start**
+
 ```
 Error: NEON_API_KEY is required
 ```
+
 Solution: Ensure `NEON_API_KEY` and `NEON_PROJECT_ID` are set in your `.env` file.
 
 **2. App can't connect to database**
+
 ```
 Error: Connection refused to neon-local:5432
 ```
+
 Solution: Wait for Neon Local to be healthy. The app depends on `neon-local` service health check.
 
 **3. SSL Certificate errors**
+
 ```
 Error: self signed certificate
 ```
+
 Solution: The app is configured to work with Neon Local's self-signed certificates. Ensure `USE_NEON_LOCAL=true` is set.
 
 **4. Ephemeral branch not created**
+
 ```
 Error: Branch creation failed
 ```
+
 Solution: Check your `NEON_API_KEY` permissions and ensure the project ID is correct.
 
 ### Getting Help

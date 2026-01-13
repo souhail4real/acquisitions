@@ -5,30 +5,33 @@ const requestCounts = new Map();
 const blockedIPs = new Map();
 
 // Clean up old entries every hour
-setInterval(() => {
-  const now = Date.now();
-  const oneHour = 60 * 60 * 1000;
-  
-  for (const [key, data] of requestCounts.entries()) {
-    if (now - data.firstRequest > oneHour) {
-      requestCounts.delete(key);
+setInterval(
+  () => {
+    const now = Date.now();
+    const oneHour = 60 * 60 * 1000;
+
+    for (const [key, data] of requestCounts.entries()) {
+      if (now - data.firstRequest > oneHour) {
+        requestCounts.delete(key);
+      }
     }
-  }
-  
-  for (const [ip, blockTime] of blockedIPs.entries()) {
-    if (now - blockTime > oneHour) {
-      blockedIPs.delete(ip);
+
+    for (const [ip, blockTime] of blockedIPs.entries()) {
+      if (now - blockTime > oneHour) {
+        blockedIPs.delete(ip);
+      }
     }
-  }
-}, 60 * 60 * 1000);
+  },
+  60 * 60 * 1000
+);
 
 export const createRateLimiter = (options = {}) => {
   const {
     windowMs = 15 * 60 * 1000, // 15 minutes
     maxRequests = 100, // max requests per window
     blockDuration = 60 * 60 * 1000, // 1 hour block
-    skipSuccessfulRequests = false,
-    keyGenerator = (req) => req.ip,
+    // skipSuccessfulRequests: false, // Commented out as it's not used
+    keyGenerator = req => req.ip,
     message = 'Too many requests, please try again later.',
   } = options;
 
@@ -74,8 +77,10 @@ export const createRateLimiter = (options = {}) => {
     // Check if limit exceeded
     if (requestData.count > maxRequests) {
       blockedIPs.set(key, now);
-      logger.warn(`Rate limit exceeded for ${key}. Blocking for ${blockDuration}ms`);
-      
+      logger.warn(
+        `Rate limit exceeded for ${key}. Blocking for ${blockDuration}ms`
+      );
+
       return res.status(429).json({
         error: message,
         retryAfter: Math.ceil(blockDuration / 1000),
@@ -86,7 +91,9 @@ export const createRateLimiter = (options = {}) => {
     res.set({
       'X-RateLimit-Limit': maxRequests,
       'X-RateLimit-Remaining': Math.max(0, maxRequests - requestData.count),
-      'X-RateLimit-Reset': new Date(requestData.firstRequest + windowMs).toISOString(),
+      'X-RateLimit-Reset': new Date(
+        requestData.firstRequest + windowMs
+      ).toISOString(),
     });
 
     next();

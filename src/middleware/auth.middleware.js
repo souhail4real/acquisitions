@@ -5,12 +5,13 @@ export const authenticateToken = (req, res, next) => {
   try {
     // Get token from cookie or Authorization header
     let token = req.cookies?.token;
-    
+
     if (!token) {
       const authHeader = req.headers['authorization'];
-      token = authHeader && authHeader.startsWith('Bearer ') 
-        ? authHeader.substring(7) 
-        : null;
+      token =
+        authHeader && authHeader.startsWith('Bearer ')
+          ? authHeader.substring(7)
+          : null;
     }
 
     if (!token) {
@@ -22,7 +23,7 @@ export const authenticateToken = (req, res, next) => {
 
     // Verify token
     const decoded = jwttoken.verify(token);
-    
+
     if (!decoded) {
       return res.status(401).json({
         error: 'Access denied',
@@ -32,26 +33,26 @@ export const authenticateToken = (req, res, next) => {
 
     // Attach user info to request
     req.user = decoded;
-    
+
     logger.info(`User ${decoded.email} authenticated successfully`);
     next();
   } catch (error) {
     logger.error('Authentication middleware error', error);
-    
+
     if (error.name === 'TokenExpiredError') {
       return res.status(401).json({
         error: 'Access denied',
         message: 'Token expired',
       });
     }
-    
+
     if (error.name === 'JsonWebTokenError') {
       return res.status(401).json({
         error: 'Access denied',
         message: 'Invalid token',
       });
     }
-    
+
     return res.status(500).json({
       error: 'Internal server error',
       message: 'Authentication failed',
@@ -69,10 +70,12 @@ export const authorizeRole = (...allowedRoles) => {
     }
 
     const userRole = req.user.role;
-    
+
     if (!allowedRoles.includes(userRole)) {
-      logger.warn(`User ${req.user.email} attempted to access restricted resource. Role: ${userRole}, Required: ${allowedRoles.join(', ')}`);
-      
+      logger.warn(
+        `User ${req.user.email} attempted to access restricted resource. Role: ${userRole}, Required: ${allowedRoles.join(', ')}`
+      );
+
       return res.status(403).json({
         error: 'Forbidden',
         message: 'Insufficient permissions',
@@ -87,12 +90,13 @@ export const authorizeRole = (...allowedRoles) => {
 export const optionalAuth = (req, res, next) => {
   try {
     let token = req.cookies?.token;
-    
+
     if (!token) {
       const authHeader = req.headers['authorization'];
-      token = authHeader && authHeader.startsWith('Bearer ') 
-        ? authHeader.substring(7) 
-        : null;
+      token =
+        authHeader && authHeader.startsWith('Bearer ')
+          ? authHeader.substring(7)
+          : null;
     }
 
     if (token) {
@@ -101,11 +105,14 @@ export const optionalAuth = (req, res, next) => {
         req.user = decoded;
       }
     }
-    
+
     next();
   } catch (error) {
     // Continue without authentication if token is invalid
-    logger.debug('Optional auth failed, continuing without user context', error);
+    logger.debug(
+      'Optional auth failed, continuing without user context',
+      error
+    );
     next();
   }
 };

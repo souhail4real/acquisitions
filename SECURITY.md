@@ -5,6 +5,7 @@ This application uses a comprehensive set of **free** security middleware to pro
 ## 🛡️ Security Features
 
 ### 1. Rate Limiting (`rateLimiter.middleware.js`)
+
 - **Purpose**: Prevent brute force attacks and API abuse
 - **Features**:
   - In-memory rate limiting (upgradeable to Redis for production clusters)
@@ -13,11 +14,13 @@ This application uses a comprehensive set of **free** security middleware to pro
   - Different limits for auth vs general API endpoints
 
 **Configuration**:
+
 - Auth endpoints: 5 requests per 15 minutes
 - API endpoints: 100 requests per 15 minutes
 - Automatic cleanup of old entries
 
 ### 2. Input Validation (`validation.middleware.js`)
+
 - **Purpose**: Detect and prevent injection attacks
 - **Protects Against**:
   - SQL Injection
@@ -26,12 +29,14 @@ This application uses a comprehensive set of **free** security middleware to pro
   - Path Traversal attacks
 
 **Features**:
+
 - Real-time threat detection
 - Optional input sanitization
 - Comprehensive logging of security events
 - Configurable blocking behavior
 
 ### 3. Authentication (`auth.middleware.js`)
+
 - **Purpose**: JWT-based authentication and authorization
 - **Features**:
   - Token verification from cookies or Authorization headers
@@ -40,6 +45,7 @@ This application uses a comprehensive set of **free** security middleware to pro
   - Proper error handling and logging
 
 ### 4. Security Middleware (`security.middleware.js`)
+
 - **Purpose**: General security hardening
 - **Features**:
   - Malicious IP blocking
@@ -97,6 +103,7 @@ The system logs and optionally blocks these threats:
 ## 🔍 Monitoring and Logging
 
 All security events are logged with:
+
 - IP address
 - User agent
 - Request URL and method
@@ -104,6 +111,7 @@ All security events are logged with:
 - Timestamp
 
 Example log entry:
+
 ```json
 {
   "level": "warn",
@@ -125,6 +133,7 @@ Example log entry:
 ## 🚀 Production Recommendations
 
 ### 1. Redis for Rate Limiting
+
 For production with multiple servers, replace in-memory storage with Redis:
 
 ```bash
@@ -134,6 +143,7 @@ npm install redis
 Update `rateLimiter.middleware.js` to use Redis instead of Map.
 
 ### 2. IP Whitelisting
+
 For admin routes, use IP whitelisting:
 
 ```javascript
@@ -143,12 +153,15 @@ router.use('/admin', ipWhitelist(['192.168.1.10', '10.0.0.5']));
 ```
 
 ### 3. Security Monitoring
+
 Consider integrating with:
+
 - **Sentry** for error tracking
 - **DataDog** for metrics and monitoring
 - **ELK Stack** for log analysis
 
 ### 4. Additional Security
+
 - Enable HTTPS in production
 - Use a reverse proxy (nginx/Apache) with security modules
 - Implement CSP (Content Security Policy) headers
@@ -183,6 +196,7 @@ curl -X POST http://localhost:3000/api/users \
 ## 📈 Performance Impact
 
 The middleware is designed to be lightweight:
+
 - Rate limiting: ~1-2ms overhead
 - Input validation: ~2-5ms overhead
 - Security checks: ~1-3ms overhead
