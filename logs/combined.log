@@ -127,3 +127,6 @@
 {"level":"info","message":"::1 - - [12/Jan/2026:23:27:01 +0000] \"POST /api/auth/sign-in HTTP/1.1\" 200 112 \"-\" \"HTTPie\"","service":"acquisitions-api","timestamp":"2026-01-12T23:27:01.372Z"}
 {"level":"info","message":"User signed out successfully","service":"acquisitions-api","timestamp":"2026-01-12T23:27:05.735Z"}
 {"level":"info","message":"::1 - - [12/Jan/2026:23:27:05 +0000] \"POST /api/auth/sign-out HTTP/1.1\" 200 42 \"-\" \"HTTPie\"","service":"acquisitions-api","timestamp":"2026-01-12T23:27:05.737Z"}
+{"level":"info","message":"Environment variables validated successfully","service":"acquisitions-api","timestamp":"2026-01-13T00:46:59.469Z"}
+{"level":"info","message":"Environment variables validated successfully","service":"acquisitions-api","timestamp":"2026-01-13T00:47:00.199Z"}
+{"level":"info","message":"Environment variables validated successfully","service":"acquisitions-api","timestamp":"2026-01-13T00:47:02.312Z"}

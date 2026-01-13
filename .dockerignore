@@ -1,0 +1,55 @@
+# Git
+.git
+.gitignore
+
+# Dependencies
+node_modules
+npm-debug.log
+yarn-error.log
+
+# Environment files (don't copy to container)
+.env
+.env.*
+!.env.example
+
+# Development files
+.vscode
+.idea
+*.md
+!README.md
+
+# Test files
+test-*.js
+test-*.json
+*.test.js
+*.spec.js
+__tests__
+coverage
+
+# Logs
+logs
+*.log
+
+# Build artifacts
+dist
+build
+
+# Docker files (not needed in container)
+Dockerfile*
+docker-compose*.yml
+.docker
+
+# Neon Local metadata
+.neon_local
+
+# Drizzle migrations (keep these - needed for db:migrate)
+# drizzle
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+*.swp
+*.swo
+*~

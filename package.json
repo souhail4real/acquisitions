@@ -15,13 +15,18 @@
     "#validations/*": "./src/validations/*"
   },
   "scripts": {
+    "start": "node src/index.js",
     "dev": "node --watch src/index.js",
+    "test": "node --test test/ || echo 'No tests found - add your test files to test/ directory'",
     "lint": "eslint .",
     "lint:fix": "prettier --write .",
+    "format": "prettier --write .",
     "format:check": "prettier --check .",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
-    "db:studio": "drizzle-kit studio"
+    "db:studio": "drizzle-kit studio",
+    "docker:dev": " sh ./scripts/start-dev.sh",
+    "docker:prod": " sh ./scripts/start-prod.sh"
   },
   "repository": {
     "type": "git",

@@ -1,2 +1,29 @@
+# Dependencies
 node_modules
-.env.*
+
+# Environment files (keep templates, ignore actual env files)
+.env
+.env.local
+.env.*.local
+
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode
+*.swp
+*.swo
+
+# Neon Local metadata
+.neon_local/
+
+# Test files
+coverage
+*.test.js
+*.spec.js

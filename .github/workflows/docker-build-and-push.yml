@@ -1,0 +1,122 @@
+name: Docker Build and Push
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+env:
+  REGISTRY: docker.io
+  IMAGE_NAME: acquisitions
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+        with:
+          platforms: linux/amd64,linux/arm64
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Extract metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ secrets.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}
+          tags: |
+            type=ref,event=branch
+            type=sha,prefix={{branch}}-
+            type=raw,value=latest,enable={{is_default_branch}}
+            type=raw,value=prod-{{date 'YYYYMMDD-HHmmss'}},enable={{is_default_branch}}
+          labels: |
+            org.opencontainers.image.title=Acquisitions API
+            org.opencontainers.image.description=Express.js API for acquisitions management
+            org.opencontainers.image.vendor=Acquisitions Team
+            org.opencontainers.image.url=https://github.com/${{ github.repository }}
+            org.opencontainers.image.source=https://github.com/${{ github.repository }}
+
+      - name: Build and push Docker image
+        id: build
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          build-args: |
+            BUILDTIME=${{ fromJSON(steps.meta.outputs.json).labels['org.opencontainers.image.created'] }}
+            VERSION=${{ fromJSON(steps.meta.outputs.json).labels['org.opencontainers.image.version'] }}
+            REVISION=${{ github.sha }}
+
+      - name: Generate build summary
+        if: always()
+        run: |
+          echo "## 🐳 Docker Build Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          if [ "${{ steps.build.outcome }}" == "success" ]; then
+            echo "✅ **Status**: Docker image built and pushed successfully!" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "❌ **Status**: Docker build failed" >> $GITHUB_STEP_SUMMARY
+            echo "::error::Docker build failed. Please check the build logs above for details."
+          fi
+          
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### 📦 Published Images" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          # Extract and display tags
+          TAGS="${{ steps.meta.outputs.tags }}"
+          echo "**Repository**: \`${{ env.REGISTRY }}/${{ secrets.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Tags**:" >> $GITHUB_STEP_SUMMARY
+          
+          # Format tags as bullet points
+          echo "$TAGS" | while IFS= read -r tag; do
+            if [ ! -z "$tag" ]; then
+              tag_name=$(echo "$tag" | sed 's/.*://')
+              echo "- \`$tag_name\`" >> $GITHUB_STEP_SUMMARY
+            fi
+          done
+          
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### 🏗️ Build Information" >> $GITHUB_STEP_SUMMARY
+          echo "- **Platforms**: \`linux/amd64\`, \`linux/arm64\`" >> $GITHUB_STEP_SUMMARY
+          echo "- **Commit**: \`${{ github.sha }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "- **Branch**: \`${{ github.ref_name }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "- **Build Time**: \`$(date -u +"%Y-%m-%d %H:%M:%S UTC")\`" >> $GITHUB_STEP_SUMMARY
+          echo "- **Image Digest**: \`${{ steps.build.outputs.digest }}\`" >> $GITHUB_STEP_SUMMARY
+          
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### 🚀 Usage" >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`bash" >> $GITHUB_STEP_SUMMARY
+          echo "# Pull the latest image" >> $GITHUB_STEP_SUMMARY
+          echo "docker pull ${{ env.REGISTRY }}/${{ secrets.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:latest" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "# Run the container" >> $GITHUB_STEP_SUMMARY
+          echo "docker run -d -p 3000:3000 --name acquisitions-app \\" >> $GITHUB_STEP_SUMMARY
+          echo "  -e NODE_ENV=production \\" >> $GITHUB_STEP_SUMMARY
+          echo "  -e DATABASE_URL=your_database_url \\" >> $GITHUB_STEP_SUMMARY
+          echo "  ${{ env.REGISTRY }}/${{ secrets.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:latest" >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+
+      - name: Docker Hub URL notification
+        if: success()
+        run: |
+          echo "::notice title=Docker Image Published::🐳 Docker image successfully published to Docker Hub: https://hub.docker.com/r/${{ secrets.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}"
