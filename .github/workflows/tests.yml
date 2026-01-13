@@ -10,36 +10,12 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
-    services:
-      postgres:
-        image: postgres:15
-        env:
-          POSTGRES_USER: test_user
-          POSTGRES_PASSWORD: test_password
-          POSTGRES_DB: test_db
-        options: >
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-        ports:
-          - 5432:5432
-
     env:
       NODE_ENV: test
-      NODE_OPTIONS: --experimental-vm-modules
-      DATABASE_URL: postgresql://test_user:test_password@localhost:5432/test_db
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Setup Git
-        run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -51,15 +27,7 @@ jobs:
         run: npm ci
 
       - name: Run tests
-        run: |
-          echo "::group::Running test suite"
-          if npm test; then
-            echo "✅ All tests passed successfully!"
-          else
-            echo "::error::Tests failed. Check the output above for details."
-            exit 1
-          fi
-          echo "::endgroup::"
+        run: npm test
 
       - name: Generate test summary
         if: always()
@@ -67,29 +35,4 @@ jobs:
           echo "## 🧪 Test Results Summary" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "✅ **Status**: Tests completed" >> $GITHUB_STEP_SUMMARY
-          echo "🎯 **Environment**: \`$NODE_ENV\`" >> $GITHUB_STEP_SUMMARY
-          echo "🔧 **Node Version**: \`$(node --version)\`" >> $GITHUB_STEP_SUMMARY
-          echo "📊 **Database**: PostgreSQL 15" >> $GITHUB_STEP_SUMMARY
-
-      - name: Upload coverage reports
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: coverage-reports-${{ github.run_number }}
-          path: |
-            coverage/
-            *.lcov
-            test-results.xml
-          retention-days: 30
-          if-no-files-found: warn
-
-      - name: Upload test artifacts
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: test-artifacts-${{ github.run_number }}
-          path: |
-            logs/
-            *.log
-          retention-days: 30
-          if-no-files-found: ignore
+          echo "🔧 **Node Version**: $(node --version)" >> $GITHUB_STEP_SUMMARY
