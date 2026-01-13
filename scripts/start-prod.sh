@@ -29,7 +29,7 @@ echo ""
 docker compose -f docker-compose.prod.yml up --build -d
 
 # Wait for DB to be ready (basic health check)
-echo "⏳ Waiting for Neon Local to be ready..."
+echo "⏳ Waiting for database connection..."
 sleep 5
 
 # Run migrations with Drizzle
