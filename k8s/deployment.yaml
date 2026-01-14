@@ -67,10 +67,10 @@ spec:
           # Resource limits and requests
           resources:
             requests:
-              memory: "128Mi"
-              cpu: "100m"
+              memory: '128Mi'
+              cpu: '100m'
             limits:
-              memory: "256Mi"
-              cpu: "500m"
+              memory: '256Mi'
+              cpu: '500m'
       # Graceful shutdown
       terminationGracePeriodSeconds: 30

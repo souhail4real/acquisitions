@@ -6,6 +6,6 @@ metadata:
   labels:
     app: acquisitions
 data:
-  NODE_ENV: "production"
-  PORT: "3000"
-  LOG_LEVEL: "info"
+  NODE_ENV: 'production'
+  PORT: '3000'
+  LOG_LEVEL: 'info'

@@ -1,7 +1,9 @@
 import js from '@eslint/js';
+import prettier from 'eslint-config-prettier';
 
 export default [
   js.configs.recommended,
+  prettier,
   {
     languageOptions: {
       ecmaVersion: 2022,
@@ -33,7 +35,7 @@ export default [
     },
   },
   {
-    files: ['tests/**/*.js'],
+    files: ['test/**/*.js'],
     languageOptions: {
       globals: {
         describe: 'readonly',

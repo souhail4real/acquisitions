@@ -14,7 +14,7 @@ const hashedPassword = await bcrypt.hash(adminPassword, 10);
 try {
   // Check if admin already exists
   const existing = await sql`SELECT id FROM users WHERE email = ${adminEmail}`;
-  
+
   if (existing.length > 0) {
     // Update existing admin password
     await sql`UPDATE users SET password = ${hashedPassword}, role = 'admin' WHERE email = ${adminEmail}`;
@@ -31,7 +31,6 @@ try {
   console.log('\n📧 Email:', adminEmail);
   console.log('🔑 Password:', adminPassword);
   console.log('\n⚠️  Change this password after first login!');
-  
 } catch (error) {
   console.error('❌ Error:', error.message);
 }

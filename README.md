@@ -33,15 +33,15 @@ Acquisitions is a backend API service that provides:
 
 ### Tech Stack
 
-| Layer | Technology |
-|-------|------------|
-| Runtime | Node.js 20+ |
-| Framework | Express.js 5.x |
-| Database | PostgreSQL (Neon Serverless) |
-| ORM | Drizzle ORM |
-| Authentication | JWT + HTTP-only Cookies |
-| Validation | Zod |
-| Logging | Winston + Morgan |
+| Layer          | Technology                   |
+| -------------- | ---------------------------- |
+| Runtime        | Node.js 20+                  |
+| Framework      | Express.js 5.x               |
+| Database       | PostgreSQL (Neon Serverless) |
+| ORM            | Drizzle ORM                  |
+| Authentication | JWT + HTTP-only Cookies      |
+| Validation     | Zod                          |
+| Logging        | Winston + Morgan             |
 
 ---
 
@@ -143,22 +143,23 @@ The server will start at `http://localhost:3000`.
 
 ### Required Variables
 
-| Variable | Description | Example |
-|----------|-------------|---------|
-| `DATABASE_URL` | Neon PostgreSQL connection string | `postgresql://user:pass@ep-xxx.neon.tech/neondb?sslmode=require` |
-| `JWT_SECRET` | Secret key for JWT signing (min 32 chars) | `your-super-secret-key-min-32-characters` |
+| Variable       | Description                               | Example                                                          |
+| -------------- | ----------------------------------------- | ---------------------------------------------------------------- |
+| `DATABASE_URL` | Neon PostgreSQL connection string         | `postgresql://user:pass@ep-xxx.neon.tech/neondb?sslmode=require` |
+| `JWT_SECRET`   | Secret key for JWT signing (min 32 chars) | `your-super-secret-key-min-32-characters`                        |
 
 ### Optional Variables
 
-| Variable | Description | Default |
-|----------|-------------|---------|
-| `NODE_ENV` | Environment mode | `development` |
-| `PORT` | Server port | `3000` |
-| `LOG_LEVEL` | Winston log level | `debug` |
+| Variable    | Description       | Default       |
+| ----------- | ----------------- | ------------- |
+| `NODE_ENV`  | Environment mode  | `development` |
+| `PORT`      | Server port       | `3000`        |
+| `LOG_LEVEL` | Winston log level | `debug`       |
 
 ### Example `.env` Files
 
 **Development** (`.env` or `.env.development`):
+
 ```env
 NODE_ENV=development
 PORT=3000
@@ -169,6 +170,7 @@ JWT_SECRET=dev-secret-key-for-local-development-only
 ```
 
 **Production** (`.env.production`):
+
 ```env
 NODE_ENV=production
 PORT=3000
@@ -188,23 +190,24 @@ JWT_SECRET=<generate-with-openssl-rand-base64-64>
 
 ### Health Check
 
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| `GET` | `/` | Welcome message |
-| `GET` | `/health` | Health check with uptime |
-| `GET` | `/api` | API status |
+| Method | Endpoint  | Description              |
+| ------ | --------- | ------------------------ |
+| `GET`  | `/`       | Welcome message          |
+| `GET`  | `/health` | Health check with uptime |
+| `GET`  | `/api`    | API status               |
 
 ---
 
 ### Authentication (`/api/auth`)
 
-| Method | Endpoint | Description | Auth Required |
-|--------|----------|-------------|---------------|
-| `POST` | `/api/auth/sign-up` | Register new user | No |
-| `POST` | `/api/auth/sign-in` | Login and get JWT | No |
-| `POST` | `/api/auth/sign-out` | Logout (clear cookie) | No |
+| Method | Endpoint             | Description           | Auth Required |
+| ------ | -------------------- | --------------------- | ------------- |
+| `POST` | `/api/auth/sign-up`  | Register new user     | No            |
+| `POST` | `/api/auth/sign-in`  | Login and get JWT     | No            |
+| `POST` | `/api/auth/sign-out` | Logout (clear cookie) | No            |
 
 #### Sign Up
+
 ```bash
 curl -X POST http://localhost:3000/api/auth/sign-up \
   -H "Content-Type: application/json" \
@@ -212,6 +215,7 @@ curl -X POST http://localhost:3000/api/auth/sign-up \
 ```
 
 **Request Body:**
+
 ```json
 {
   "name": "John Doe",
@@ -221,6 +225,7 @@ curl -X POST http://localhost:3000/api/auth/sign-up \
 ```
 
 **Response (201):**
+
 ```json
 {
   "message": "User created successfully",
@@ -234,6 +239,7 @@ curl -X POST http://localhost:3000/api/auth/sign-up \
 ```
 
 #### Sign In
+
 ```bash
 curl -X POST http://localhost:3000/api/auth/sign-in \
   -H "Content-Type: application/json" \
@@ -242,6 +248,7 @@ curl -X POST http://localhost:3000/api/auth/sign-in \
 ```
 
 **Request Body:**
+
 ```json
 {
   "email": "john@example.com",
@@ -250,6 +257,7 @@ curl -X POST http://localhost:3000/api/auth/sign-in \
 ```
 
 **Response (200):** Sets HTTP-only cookie with JWT token
+
 ```json
 {
   "message": "User signed in successfully",
@@ -263,11 +271,13 @@ curl -X POST http://localhost:3000/api/auth/sign-in \
 ```
 
 #### Sign Out
+
 ```bash
 curl -X POST http://localhost:3000/api/auth/sign-out -b cookies.txt
 ```
 
 **Response (200):**
+
 ```json
 {
   "message": "User signed out successfully"
@@ -278,20 +288,22 @@ curl -X POST http://localhost:3000/api/auth/sign-out -b cookies.txt
 
 ### Users (`/api/users`)
 
-| Method | Endpoint | Description | Auth Required | Role |
-|--------|----------|-------------|---------------|------|
-| `GET` | `/api/users/profile` | Get current user profile | Yes | Any |
-| `GET` | `/api/users` | List all users | Yes | Admin |
-| `GET` | `/api/users/:id` | Get user by ID | Yes | Admin |
-| `PUT` | `/api/users/:id` | Update user | Yes | Owner/Admin |
-| `DELETE` | `/api/users/:id` | Delete user | Yes | Admin |
+| Method   | Endpoint             | Description              | Auth Required | Role        |
+| -------- | -------------------- | ------------------------ | ------------- | ----------- |
+| `GET`    | `/api/users/profile` | Get current user profile | Yes           | Any         |
+| `GET`    | `/api/users`         | List all users           | Yes           | Admin       |
+| `GET`    | `/api/users/:id`     | Get user by ID           | Yes           | Admin       |
+| `PUT`    | `/api/users/:id`     | Update user              | Yes           | Owner/Admin |
+| `DELETE` | `/api/users/:id`     | Delete user              | Yes           | Admin       |
 
 #### Get Profile (Any authenticated user)
+
 ```bash
 curl http://localhost:3000/api/users/profile -b cookies.txt
 ```
 
 **Response (200):**
+
 ```json
 {
   "message": "User profile",
@@ -305,11 +317,13 @@ curl http://localhost:3000/api/users/profile -b cookies.txt
 ```
 
 #### Get All Users (Admin only)
+
 ```bash
 curl http://localhost:3000/api/users -b cookies.txt
 ```
 
 **Response (200):**
+
 ```json
 {
   "message": "Users retrieved successfully",
@@ -328,11 +342,13 @@ curl http://localhost:3000/api/users -b cookies.txt
 ```
 
 #### Get User by ID (Admin only)
+
 ```bash
 curl http://localhost:3000/api/users/1 -b cookies.txt
 ```
 
 **Response (200):**
+
 ```json
 {
   "message": "User retrieved successfully",
@@ -348,6 +364,7 @@ curl http://localhost:3000/api/users/1 -b cookies.txt
 ```
 
 #### Update User (Owner or Admin)
+
 ```bash
 curl -X PUT http://localhost:3000/api/users/1 \
   -H "Content-Type: application/json" \
@@ -356,6 +373,7 @@ curl -X PUT http://localhost:3000/api/users/1 \
 ```
 
 **Request Body (all fields optional):**
+
 ```json
 {
   "name": "John Updated",
@@ -364,9 +382,11 @@ curl -X PUT http://localhost:3000/api/users/1 \
   "role": "admin"
 }
 ```
+
 > Note: Only admins can change the `role` field.
 
 **Response (200):**
+
 ```json
 {
   "message": "User updated successfully",
@@ -382,11 +402,13 @@ curl -X PUT http://localhost:3000/api/users/1 \
 ```
 
 #### Delete User (Admin only)
+
 ```bash
 curl -X DELETE http://localhost:3000/api/users/1 -b cookies.txt
 ```
 
 **Response (200):**
+
 ```json
 {
   "message": "User deleted successfully",
@@ -403,16 +425,17 @@ curl -X DELETE http://localhost:3000/api/users/1 -b cookies.txt
 
 ### Error Responses
 
-| Status | Description |
-|--------|-------------|
-| `400` | Validation error - Invalid request body |
-| `401` | Unauthorized - No token or invalid token |
-| `403` | Forbidden - Insufficient permissions |
-| `404` | Not found - Resource doesn't exist |
-| `429` | Too many requests - Rate limited |
-| `500` | Internal server error |
+| Status | Description                              |
+| ------ | ---------------------------------------- |
+| `400`  | Validation error - Invalid request body  |
+| `401`  | Unauthorized - No token or invalid token |
+| `403`  | Forbidden - Insufficient permissions     |
+| `404`  | Not found - Resource doesn't exist       |
+| `429`  | Too many requests - Rate limited         |
+| `500`  | Internal server error                    |
 
 **Example Error Response:**
+
 ```json
 {
   "error": "Validation failed",
@@ -429,20 +452,20 @@ curl -X DELETE http://localhost:3000/api/users/1 -b cookies.txt
 
 ## Scripts Reference
 
-| Script | Command | Description | When to Use |
-|--------|---------|-------------|-------------|
-| `start` | `npm start` | Start production server | Production deployment |
-| `dev` | `npm run dev` | Start with hot reload | Local development |
-| `test` | `npm test` | Run test suite | Before commits/CI |
-| `lint` | `npm run lint` | Check code quality | Before commits |
-| `lint:fix` | `npm run lint:fix` | Fix linting issues + format | Fix issues |
-| `format` | `npm run format` | Format code with Prettier | Code formatting |
-| `format:check` | `npm run format:check` | Check formatting | CI validation |
-| `db:generate` | `npm run db:generate` | Generate migration files | After schema changes |
-| `db:migrate` | `npm run db:migrate` | Apply migrations | Setup/updates |
-| `db:studio` | `npm run db:studio` | Open Drizzle Studio GUI | Database inspection |
-| `docker:dev` | `npm run docker:dev` | Start Docker dev environment | Docker development |
-| `docker:prod` | `npm run docker:prod` | Start Docker prod environment | Docker production |
+| Script         | Command                | Description                   | When to Use           |
+| -------------- | ---------------------- | ----------------------------- | --------------------- |
+| `start`        | `npm start`            | Start production server       | Production deployment |
+| `dev`          | `npm run dev`          | Start with hot reload         | Local development     |
+| `test`         | `npm test`             | Run test suite                | Before commits/CI     |
+| `lint`         | `npm run lint`         | Check code quality            | Before commits        |
+| `lint:fix`     | `npm run lint:fix`     | Fix linting issues + format   | Fix issues            |
+| `format`       | `npm run format`       | Format code with Prettier     | Code formatting       |
+| `format:check` | `npm run format:check` | Check formatting              | CI validation         |
+| `db:generate`  | `npm run db:generate`  | Generate migration files      | After schema changes  |
+| `db:migrate`   | `npm run db:migrate`   | Apply migrations              | Setup/updates         |
+| `db:studio`    | `npm run db:studio`    | Open Drizzle Studio GUI       | Database inspection   |
+| `docker:dev`   | `npm run docker:dev`   | Start Docker dev environment  | Docker development    |
+| `docker:prod`  | `npm run docker:prod`  | Start Docker prod environment | Docker production     |
 
 ---
 
@@ -514,11 +537,13 @@ docker run -d -p 3000:3000 \
 ### Docker Compose
 
 **Development:**
+
 ```bash
 docker compose -f docker-compose.dev.yml up --build
 ```
 
 **Production:**
+
 ```bash
 docker compose -f docker-compose.prod.yml up --build -d
 ```
@@ -526,6 +551,7 @@ docker compose -f docker-compose.prod.yml up --build -d
 ### Pre-built Image
 
 Pull from Docker Hub:
+
 ```bash
 docker pull souhail4real/acquisitions:latest
 ```
@@ -545,13 +571,13 @@ The application includes production-ready Kubernetes manifests in the `/k8s` dir
 
 ### Manifests Overview
 
-| File | Resource | Description |
-|------|----------|-------------|
-| `namespace.yaml` | Namespace | Isolated namespace for the application |
-| `configmap.yaml` | ConfigMap | Non-sensitive environment variables |
-| `secret.yaml` | Secret | Sensitive data (DATABASE_URL, JWT_SECRET) |
-| `deployment.yaml` | Deployment | 3 replicas with rolling updates |
-| `service.yaml` | Service | ClusterIP service on port 80 |
+| File              | Resource   | Description                               |
+| ----------------- | ---------- | ----------------------------------------- |
+| `namespace.yaml`  | Namespace  | Isolated namespace for the application    |
+| `configmap.yaml`  | ConfigMap  | Non-sensitive environment variables       |
+| `secret.yaml`     | Secret     | Sensitive data (DATABASE_URL, JWT_SECRET) |
+| `deployment.yaml` | Deployment | 3 replicas with rolling updates           |
+| `service.yaml`    | Service    | ClusterIP service on port 80              |
 
 ### Prerequisites
 
@@ -749,30 +775,30 @@ acquisitions/
 
 ### Production Dependencies
 
-| Package | Version | Purpose |
-|---------|---------|---------|
-| `express` | 5.x | Web framework |
-| `@neondatabase/serverless` | 1.x | Neon PostgreSQL driver |
-| `drizzle-orm` | 0.45.x | Database ORM |
-| `bcrypt` | 6.x | Password hashing |
-| `jsonwebtoken` | 9.x | JWT authentication |
-| `zod` | 4.x | Schema validation |
-| `helmet` | 8.x | Security headers |
-| `cors` | 2.x | CORS middleware |
-| `cookie-parser` | 1.x | Cookie parsing |
-| `morgan` | 1.x | HTTP request logging |
-| `winston` | 3.x | Application logging |
-| `dotenv` | 17.x | Environment variables |
+| Package                    | Version | Purpose                |
+| -------------------------- | ------- | ---------------------- |
+| `express`                  | 5.x     | Web framework          |
+| `@neondatabase/serverless` | 1.x     | Neon PostgreSQL driver |
+| `drizzle-orm`              | 0.45.x  | Database ORM           |
+| `bcrypt`                   | 6.x     | Password hashing       |
+| `jsonwebtoken`             | 9.x     | JWT authentication     |
+| `zod`                      | 4.x     | Schema validation      |
+| `helmet`                   | 8.x     | Security headers       |
+| `cors`                     | 2.x     | CORS middleware        |
+| `cookie-parser`            | 1.x     | Cookie parsing         |
+| `morgan`                   | 1.x     | HTTP request logging   |
+| `winston`                  | 3.x     | Application logging    |
+| `dotenv`                   | 17.x    | Environment variables  |
 
 ### Development Dependencies
 
-| Package | Version | Purpose |
-|---------|---------|---------|
-| `eslint` | 9.x | Code linting |
-| `prettier` | 3.x | Code formatting |
-| `eslint-config-prettier` | 10.x | ESLint + Prettier integration |
-| `eslint-plugin-prettier` | 5.x | Run Prettier as ESLint rule |
-| `drizzle-kit` | 0.31.x | Database migrations |
+| Package                  | Version | Purpose                       |
+| ------------------------ | ------- | ----------------------------- |
+| `eslint`                 | 9.x     | Code linting                  |
+| `prettier`               | 3.x     | Code formatting               |
+| `eslint-config-prettier` | 10.x    | ESLint + Prettier integration |
+| `eslint-plugin-prettier` | 5.x     | Run Prettier as ESLint rule   |
+| `drizzle-kit`            | 0.31.x  | Database migrations           |
 
 ---
 
@@ -780,15 +806,15 @@ acquisitions/
 
 ### Built-in Protections
 
-| Feature | Implementation |
-|---------|----------------|
-| **Rate Limiting** | In-memory limiter (5 req/15min auth, 100 req/15min API) |
-| **Input Validation** | SQL injection, NoSQL injection, XSS detection |
-| **CORS** | Configurable origin whitelist |
-| **Helmet** | Security headers (CSP, X-Frame-Options, etc.) |
-| **Password Hashing** | bcrypt with salt rounds |
-| **JWT** | HTTP-only cookies, configurable expiration |
-| **Role-Based Access** | User/Admin role authorization |
+| Feature               | Implementation                                          |
+| --------------------- | ------------------------------------------------------- |
+| **Rate Limiting**     | In-memory limiter (5 req/15min auth, 100 req/15min API) |
+| **Input Validation**  | SQL injection, NoSQL injection, XSS detection           |
+| **CORS**              | Configurable origin whitelist                           |
+| **Helmet**            | Security headers (CSP, X-Frame-Options, etc.)           |
+| **Password Hashing**  | bcrypt with salt rounds                                 |
+| **JWT**               | HTTP-only cookies, configurable expiration              |
+| **Role-Based Access** | User/Admin role authorization                           |
 
 ### Security Best Practices
 
@@ -804,19 +830,19 @@ acquisitions/
 
 Three GitHub Actions workflows are configured:
 
-| Workflow | Trigger | Purpose |
-|----------|---------|---------|
-| **Lint & Format** | Push/PR to main, staging | Code quality checks |
-| **Tests** | Push/PR to main, staging | Run test suite |
-| **Docker Build** | Push to main | Build & push to Docker Hub |
+| Workflow          | Trigger                  | Purpose                    |
+| ----------------- | ------------------------ | -------------------------- |
+| **Lint & Format** | Push/PR to main, staging | Code quality checks        |
+| **Tests**         | Push/PR to main, staging | Run test suite             |
+| **Docker Build**  | Push to main             | Build & push to Docker Hub |
 
 ### Required Secrets
 
 Configure in GitHub Repository Settings → Secrets:
 
-| Secret | Purpose |
-|--------|---------|
-| `DOCKER_USERNAME` | Docker Hub username |
+| Secret            | Purpose                 |
+| ----------------- | ----------------------- |
+| `DOCKER_USERNAME` | Docker Hub username     |
 | `DOCKER_PASSWORD` | Docker Hub access token |
 
 ---
